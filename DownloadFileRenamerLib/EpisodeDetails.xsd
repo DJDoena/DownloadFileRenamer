@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- xsd.exe /c /l:cs /nologo /f /n:DoenaSoft.DownloadRenamer EpisodeDetails.xsd -->
+<xs:schema id="EpisodeDetails" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="episodedetails" type="EpisodeDetails" />
+
+  <xs:complexType name="EpisodeDetails">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="aired" type="xs:date" minOccurs="0" maxOccurs="1" />
+      <xs:element name="season" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="episode" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="uniqueid" type="UniqueId" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="UniqueId">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="type" type="xs:string" use="required" />
+        <xs:attribute name="default" type="xs:boolean" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+</xs:schema>

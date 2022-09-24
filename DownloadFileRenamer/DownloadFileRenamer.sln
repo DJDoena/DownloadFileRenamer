@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadFileRenamer", "DownloadFileRenamer.csproj", "{515CF483-391E-49F4-B309-CC622375DAD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadFileRenamerLib", "..\DownloadFileRenamerLib\DownloadFileRenamerLib.csproj", "{4BA550A1-4DFA-494C-A9C2-B6575D34E6A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassDownloadFileRenamer", "..\MassDownloadFileRenamer\MassDownloadFileRenamer.csproj", "{EE32CAAF-C24C-4E2E-819A-D15F2C6D2AFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{515CF483-391E-49F4-B309-CC622375DAD0}.Debug|x64.ActiveCfg = Debug|x64
+		{515CF483-391E-49F4-B309-CC622375DAD0}.Debug|x64.Build.0 = Debug|x64
+		{515CF483-391E-49F4-B309-CC622375DAD0}.Release|x64.ActiveCfg = Debug|x64
+		{515CF483-391E-49F4-B309-CC622375DAD0}.Release|x64.Build.0 = Debug|x64
+		{4BA550A1-4DFA-494C-A9C2-B6575D34E6A4}.Debug|x64.ActiveCfg = Debug|x64
+		{4BA550A1-4DFA-494C-A9C2-B6575D34E6A4}.Debug|x64.Build.0 = Debug|x64
+		{4BA550A1-4DFA-494C-A9C2-B6575D34E6A4}.Release|x64.ActiveCfg = Debug|x64
+		{4BA550A1-4DFA-494C-A9C2-B6575D34E6A4}.Release|x64.Build.0 = Debug|x64
+		{EE32CAAF-C24C-4E2E-819A-D15F2C6D2AFF}.Debug|x64.ActiveCfg = Debug|x64
+		{EE32CAAF-C24C-4E2E-819A-D15F2C6D2AFF}.Debug|x64.Build.0 = Debug|x64
+		{EE32CAAF-C24C-4E2E-819A-D15F2C6D2AFF}.Release|x64.ActiveCfg = Debug|x64
+		{EE32CAAF-C24C-4E2E-819A-D15F2C6D2AFF}.Release|x64.Build.0 = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B088B0A-85BD-4B79-A1B6-F6ABB4A51C09}
+	EndGlobalSection
+EndGlobal
