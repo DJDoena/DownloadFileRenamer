@@ -124,7 +124,11 @@
             {
                 DeCheckbox.Checked = false;
 
-                if (fileName.IndexOf("german", StringComparison.InvariantCultureIgnoreCase) != -1
+                if (SeriesNameComboBox.SelectedIndex != -1 && GetSelectedName().OriginalLanguage == "ger")
+                {
+                    DeCheckbox.Checked = true;
+                }
+                else if (fileName.IndexOf("german", StringComparison.InvariantCultureIgnoreCase) != -1
                     && MessageBox.Show("Set German?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     DeCheckbox.Checked = true;
