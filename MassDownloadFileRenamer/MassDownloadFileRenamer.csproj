@@ -34,18 +34,18 @@
     <Compile Include="TitleReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DownloadFileRenamerLib\DownloadFileRenamerLib.csproj">
-      <Project>{4ba550a1-4dfa-494c-a9c2-b6575d34e6a4}</Project>
-      <Name>DownloadFileRenamerLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="DoenaSoft.MediaInfoHelper">
       <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="DoenaSoft.ToolBox">
       <Version>1.0.7</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DownloadFileRenamerLib\DownloadFileRenamerLib.csproj">
+      <Project>{4ba550a1-4dfa-494c-a9c2-b6575d34e6a4}</Project>
+      <Name>DownloadFileRenamerLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

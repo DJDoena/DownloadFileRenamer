@@ -7,11 +7,11 @@
 
     internal static class Program
     {
-        private const string TitleFile = @"D:\QL.csv";
+        private const string TitleFile = @"D:\Downloads\LD.csv";
 
-        private const string ShortName = "QuantumLeap";
+        private const string ShortName = "STLD";
 
-        private const string SourceFolder = @"N:\Fresh Downloads\Finished";
+        private const string SourceFolder = @"N:\Fresh Downloads\Finished\LD";
 
         private const bool UseTvdb = true;
         
