@@ -7,11 +7,11 @@
 
     internal static class Program
     {
-        private const string TitleFile = @"D:\Downloads\LD.csv";
+        private const string TitleFile = @"D:\mash.csv";
 
-        private const string ShortName = "STLD";
+        private const string ShortName = "MASH";
 
-        private const string SourceFolder = @"N:\Fresh Downloads\Finished\LD";
+        private const string SourceFolder = @"N:\Fresh Downloads\CryptLoad\finished\mash";
 
         private const bool UseTvdb = true;
         
@@ -21,9 +21,9 @@
 
         private const bool GermanAudio = true;
 
-        private static readonly Regex _fileNameRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-2][0-9])(E(?'Episode2'[0-2][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //private static readonly Regex _fileNameRegex = new Regex("(?'Season'[1-9])x(?'Episode'[0-2][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        //private static readonly Regex _fileNameRegex = new Regex("-(?'Season'[1-9])(?'Episode'[0-2][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex _fileNameRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-3][0-9])(E(?'Episode2'[0-3][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        //private static readonly Regex _fileNameRegex = new Regex("(?'Season'[0-9])x(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        //private static readonly Regex _fileNameRegex = new Regex("-(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static void Main()
         {

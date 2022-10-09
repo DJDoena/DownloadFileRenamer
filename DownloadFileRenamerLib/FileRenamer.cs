@@ -10,7 +10,8 @@
 
             var targetFileName = Path.Combine(sourceFileInfo.DirectoryName, model.TargetFileName);
 
-            sourceFileInfo.MoveTo(targetFileName);
+            File.Move(sourceFileInfo.FullName, targetFileName);
+            //sourceFileInfo.MoveTo(targetFileName); //do not use, it changes the source file's info
 
             string title;
             if (!string.IsNullOrEmpty(model.FullEpisodeName))
@@ -47,14 +48,33 @@
 
             foreach (var partnerSourceFile in partnerSourceFiles)
             {
-                var partnerTargetFileName = Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
+                string partnerTargetFileName = GetPartnerTargetFileName(partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
 
-                partnerTargetFileName = partnerTargetFileName.Replace(partnerFilesSourceName, partnerTargetFileNamePrefix);
-
-                partnerTargetFileName = Path.Combine(partnerSourceFile.DirectoryName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
-
-                partnerSourceFile.MoveTo(partnerTargetFileName);
+                File.Move(partnerSourceFile.FullName, partnerTargetFileName);
             }
+        }
+
+        private static string GetPartnerTargetFileName(FileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
+        {
+            var partnerTargetFileName = Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
+
+            if (partnerTargetFileName.Length == partnerFilesSourceName.Length)
+            {
+                partnerTargetFileName = partnerTargetFileName.Replace(partnerFilesSourceName, partnerTargetFileNamePrefix);
+            }
+            else
+            {
+                partnerTargetFileName = partnerTargetFileName.Replace(partnerFilesSourceName, $"{partnerTargetFileNamePrefix}.");
+            }
+
+            if (partnerTargetFileName.StartsWith($"{partnerTargetFileNamePrefix}.-"))
+            {
+                partnerTargetFileName = partnerTargetFileName.Replace($"{partnerTargetFileNamePrefix}.-", $"{partnerTargetFileNamePrefix}.");
+            }
+
+            partnerTargetFileName = Path.Combine(partnerSourceFile.DirectoryName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
+
+            return partnerTargetFileName;
         }
     }
 }

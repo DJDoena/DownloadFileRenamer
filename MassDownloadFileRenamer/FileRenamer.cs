@@ -38,7 +38,7 @@
             var match = _fileNameRegex.Match(file.Name);
 
             if (match.Success)
-            {
+            {                
                 var seasonNumber = TitleReader.GetSeasonNumber(match);
 
                 var episodeNumber = TitleReader.GetEpisodeNumber(match);
