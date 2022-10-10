@@ -99,6 +99,18 @@
 
             var fileName = Path.Combine(_root, "Names.xml");
 
+            if (File.Exists(fileName))
+            {
+                var backupFileName = Path.Combine(_root, "Names.xml.bak");
+
+                if (File.Exists(backupFileName))
+                {
+                    File.Delete(backupFileName);
+                }
+
+                File.Move(fileName, backupFileName);
+            }
+
             Serializer<Names>.Serialize(fileName, nameList);
         }
 
