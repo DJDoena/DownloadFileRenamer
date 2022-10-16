@@ -7,7 +7,7 @@
 
     internal static class EpisodeInfoCreator
     {
-        public static void Create(string videoFileName, string seriesShortName, string title, string airdate, string seasonAndEpisode, ushort year, string tvdbId)
+        public static void Create(string videoFileName, string seriesShortName, string title, string airdate, string seasonAndEpisode, string tvdbId)
         {
             var videoFI = new FileInfo(videoFileName);
 
@@ -15,9 +15,7 @@
 
             var targetFileName = Path.Combine(videoFI.DirectoryName, nfoFileName);
 
-            var homeId = year > 1900
-                ? $"{seriesShortName}_{year}_{seasonAndEpisode}"
-                : $"{seriesShortName}_{seasonAndEpisode}";
+            var homeId = $"{seriesShortName}_{seasonAndEpisode}";
 
             UniqueId[] uniqueIds;
             if (string.IsNullOrEmpty(tvdbId))

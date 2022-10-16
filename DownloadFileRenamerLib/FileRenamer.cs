@@ -11,7 +11,7 @@
             var targetFileName = Path.Combine(sourceFileInfo.DirectoryName, model.TargetFileName);
 
             File.Move(sourceFileInfo.FullName, targetFileName);
-            //sourceFileInfo.MoveTo(targetFileName); //do not use, it changes the source file's info
+            //sourceFileInfo.MoveTo(targetFileName); //do not use, it changes the source file's FileInfo
 
             string title;
             if (!string.IsNullOrEmpty(model.FullEpisodeName))
@@ -38,7 +38,7 @@
 
             var seriesName = model.ShowName;
 
-            EpisodeInfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, seriesName.Year, model.TvdbId);
+            EpisodeInfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, model.TvdbId);
 
             var partnerFilesSourceName = Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
 
