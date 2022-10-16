@@ -39,17 +39,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.LongNameTextBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.YearUpDown = new System.Windows.Forms.NumericUpDown();
             this.SaveButton = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.SortNameTextBox = new System.Windows.Forms.TextBox();
             this.SearchTvdbLinkLabel = new System.Windows.Forms.LinkLabel();
             this.PasteIDButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.YearUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // ShortNameTextBox
@@ -134,15 +131,6 @@
             this.label6.TabIndex = 12;
             this.label6.Text = "Localized name:";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 198);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(32, 13);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Year:";
-            // 
             // LongNameTextBox
             // 
             this.LongNameTextBox.Location = new System.Drawing.Point(113, 40);
@@ -158,28 +146,6 @@
             this.label10.Size = new System.Drawing.Size(63, 13);
             this.label10.TabIndex = 2;
             this.label10.Text = "Long name:";
-            // 
-            // YearUpDown
-            // 
-            this.YearUpDown.Location = new System.Drawing.Point(113, 196);
-            this.YearUpDown.Maximum = new decimal(new int[] {
-            2100,
-            0,
-            0,
-            0});
-            this.YearUpDown.Minimum = new decimal(new int[] {
-            1900,
-            0,
-            0,
-            0});
-            this.YearUpDown.Name = "YearUpDown";
-            this.YearUpDown.Size = new System.Drawing.Size(523, 20);
-            this.YearUpDown.TabIndex = 15;
-            this.YearUpDown.Value = new decimal(new int[] {
-            1900,
-            0,
-            0,
-            0});
             // 
             // SaveButton
             // 
@@ -252,10 +218,8 @@
             this.Controls.Add(this.SortNameTextBox);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.YearUpDown);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.LongNameTextBox);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -270,7 +234,6 @@
             this.MinimumSize = new System.Drawing.Size(800, 400);
             this.Name = "NewSeriesForm";
             this.Text = "Create New Series";
-            ((System.ComponentModel.ISupportInitialize)(this.YearUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,10 +250,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox LongNameTextBox;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown YearUpDown;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Label label2;

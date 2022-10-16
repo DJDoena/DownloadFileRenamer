@@ -28,16 +28,32 @@
 
         private void OnSaveButtonClick(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Save?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            var newShortName = ShortNameTextBox.Text.Trim();
+
+            var newLongName = LongNameTextBox.Text.Trim();
+
+            var link = UrlTextBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(newShortName))
             {
+                MessageBox.Show("No short name!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            else if (string.IsNullOrEmpty(newLongName))
+            {
+                MessageBox.Show("No long name!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            else if (string.IsNullOrEmpty(link))
+            {
+                MessageBox.Show("No link!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 return;
             }
 
             var names = Helper.ReadNames();
-
-            var newShortName = ShortNameTextBox.Text.Trim();
-
-            var newLongName = LongNameTextBox.Text.Trim();
 
             if (AlreadyExists(names, n => n.ShortName.ToLower() == newShortName.ToLower())
                 || AlreadyExists(names, n => n.LongName.ToLower() == newLongName.ToLower()))
@@ -48,13 +64,12 @@
             var newName = new Name()
             {
                 ShortName = newShortName,
-                LongName = LongNameTextBox.Text.Trim(),
-                Link = UrlTextBox.Text.Trim(),
+                LongName = newLongName,
+                Link = link,
                 OriginalLanguage = OriginalLanguageTextBox.Text.Trim(),
                 SortName = !string.IsNullOrWhiteSpace(SortNameTextBox.Text) ? SortNameTextBox.Text.Trim() : null,
                 DisplayName = !string.IsNullOrWhiteSpace(DisplayNameTextBox.Text) ? DisplayNameTextBox.Text.Trim() : null,
                 LocalizedName = !string.IsNullOrWhiteSpace(LocalizedNameTextBox.Text) ? LocalizedNameTextBox.Text.Trim() : null,
-                Year = YearUpDown.Value != 1900 ? (ushort)YearUpDown.Value : (ushort)0,
             };
 
             names.Insert(0, newName);
