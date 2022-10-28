@@ -9,7 +9,7 @@
         [STAThread]
         public static void Main()
         {
-            var processes = Process.GetProcessesByName("DownloadFileRenamer");
+            var processes = Process.GetProcessesByName("DownloadRenamer");
 
             if (processes.Length > 1)
             {
