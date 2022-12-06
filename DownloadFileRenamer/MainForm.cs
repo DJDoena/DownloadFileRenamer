@@ -15,6 +15,8 @@
 
         private readonly List<CrypticName> _crypticNames;
 
+        private readonly HashSet<Tuple<string, string>> _episodeNames;
+
         private List<Name> _names;
 
         private int _currentSeriesIndex;
@@ -51,6 +53,8 @@
             _names = Helper.ReadNames();
 
             SeriesNameComboBox.DataSource = _names;
+
+            _episodeNames = new HashSet<Tuple<string, string>>();
 
             this.Clean();
         }
@@ -237,6 +241,16 @@
                 var name = this.GetSelectedName();
 
                 name.EpisodeNamesLink = EpisodeNamesLinkTextBox.Text;
+            }
+
+            var episodeName = new Tuple<string, string>(_model.EpisodeName, _model.TvdbId);
+
+            if (!_episodeNames.Add(episodeName))
+            {
+                if (MessageBox.Show($"Episode name '{_model.EpisodeName}' seems to have been used already. Continue?", "Duplicate", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                {
+                    return;
+                }
             }
 
             try
