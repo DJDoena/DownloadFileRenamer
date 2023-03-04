@@ -7,17 +7,17 @@
 
     internal static class Program
     {
-        private const string TitleFile = @"D:\Hudson.csv";
+        private const string TitleFile = @"D:\mwc.csv";
 
-        private const string ShortName = "Hudson&Rex";
+        private const string ShortName = "MwC";
 
-        private const string SourceFolder = @"N:\Fresh Downloads\Finished";
+        private const string SourceFolder = @"N:\Fresh Downloads\CryptLoad\mwc";
 
         private const bool UseTvdb = true;
         
         private const string Extension = ".mkv";
 
-        private const string Resolution = "720";
+        private const string Resolution = "480";
 
         private const bool GermanAudio = true;
 
