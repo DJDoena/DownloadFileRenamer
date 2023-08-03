@@ -7,7 +7,7 @@
 
     internal static class TitleReader
     {
-        private static readonly Regex _tvdbRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex _tvdbRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public static bool GetEpisodeTitles(string episodeNameSourceFile, bool useTvdb, out Dictionary<string, Dictionary<string, string>> episodeTitles)
         {
