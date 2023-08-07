@@ -10,8 +10,11 @@
 
             var targetFileName = Path.Combine(sourceFileInfo.DirectoryName, model.TargetFileName);
 
-            File.Move(sourceFileInfo.FullName, targetFileName);
-            //sourceFileInfo.MoveTo(targetFileName); //do not use, it changes the source file's FileInfo
+            if (sourceFileInfo.FullName != targetFileName)
+            {
+                File.Move(sourceFileInfo.FullName, targetFileName);
+                //sourceFileInfo.MoveTo(targetFileName); //do not use, it changes the source file's FileInfo
+            }
 
             string title;
             if (!string.IsNullOrEmpty(model.FullEpisodeName))
