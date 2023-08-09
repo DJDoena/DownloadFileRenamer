@@ -7,11 +7,11 @@
 
     internal static class Program
     {
-        private const string TitleFile = @"D:\Barry.csv";
+        private const string TitleFile = @"D:\Mayans.csv";
 
-        private const string ShortName = "Barry";
+        private const string ShortName = "Mayans";
 
-        private const string SourceFolder = @"N:\Fresh Downloads\Barry";
+        private const string SourceFolder = @"N:\Fresh Downloads\Mayans";
 
         private const bool UseTvdb = true;
 

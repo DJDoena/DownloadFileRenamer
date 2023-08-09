@@ -51,15 +51,34 @@
 
             foreach (var partnerSourceFile in partnerSourceFiles)
             {
-                string partnerTargetFileName = GetPartnerTargetFileName(partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
+                if (partnerSourceFile.FullName == targetFileName)
+                {
+                    continue;
+                }
 
-                File.Move(partnerSourceFile.FullName, partnerTargetFileName);
+                var partnerTargetFileName = GetPartnerTargetFileName(partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
+
+                if (partnerSourceFile.FullName != partnerTargetFileName)
+                {
+                    File.Move(partnerSourceFile.FullName, partnerTargetFileName);
+                }
             }
         }
 
         private static string GetPartnerTargetFileName(FileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
         {
             var partnerTargetFileName = Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
+
+            var partnerFileExtension = Path.GetExtension(partnerSourceFile.Name);
+
+            switch (partnerFileExtension)
+            {
+                case ".title":
+                case ".nfo":
+                    {
+                        return partnerSourceFile.FullName;
+                    }
+            }
 
             if (partnerTargetFileName.Length == partnerFilesSourceName.Length)
             {
