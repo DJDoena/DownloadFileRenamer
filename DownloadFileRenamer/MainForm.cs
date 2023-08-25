@@ -1,12 +1,12 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Windows.Forms;
-    using CopySeries;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using DoenaSoft.CopySeries;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public partial class MainForm : Form
     {
         private readonly EpisodeModel _model;
@@ -255,7 +255,9 @@
 
             try
             {
-                FileRenamer.Rename(_model);
+                FileRenamer.StartRename(_model);
+
+                FileRenamer.FinishRename();
 
                 this.Clean();
             }

@@ -1,8 +1,8 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System.Linq;
-    using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public static class HtmlParser
     {
         private static readonly Regex _urlRegex;

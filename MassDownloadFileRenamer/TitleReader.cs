@@ -1,10 +1,10 @@
-﻿namespace DoenaSoft.MassDownloadFileRenamer
-{
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
-    using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 
+namespace DoenaSoft.MassDownloadFileRenamer
+{
     internal static class TitleReader
     {
         private static readonly Regex _tvdbRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);

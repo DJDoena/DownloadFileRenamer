@@ -1,10 +1,10 @@
-﻿namespace DoenaSoft.MassDownloadFileRenamer
-{
-    using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Text.RegularExpressions;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text.RegularExpressions;
 
+namespace DoenaSoft.MassDownloadFileRenamer
+{
     internal static class Program
     {
         private const string TitleFile = @"D:\Mayans.csv";
@@ -49,18 +49,20 @@
 
             var fileNames = Directory.GetFiles(SourceFolder, $"*{Extension}", SearchOption.TopDirectoryOnly);
 
-            foreach (var fileName in fileNames)
+            try
             {
-                var file = new FileInfo(fileName);
-
-                try
+                foreach (var fileName in fileNames)
                 {
+                    var file = new FileInfo(fileName);
+
                     renamer.Rename(file);
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error renaming '{file.Name}': {ex.Message}");
-                }
+
+                DownloadRenamer.FileRenamer.FinishRename();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             Console.WriteLine("Finished.");

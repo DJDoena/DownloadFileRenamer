@@ -1,13 +1,13 @@
-﻿namespace DoenaSoft.MassDownloadFileRenamer
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-    using CopySeries;
-    using DownloadRenamer;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using DoenaSoft.CopySeries;
+using DoenaSoft.DownloadRenamer;
 
+namespace DoenaSoft.MassDownloadFileRenamer
+{
     internal sealed class FileRenamer
     {
         private readonly Regex _fileNameRegex;
@@ -38,7 +38,7 @@
             var match = _fileNameRegex.Match(file.Name);
 
             if (match.Success)
-            {                
+            {
                 var seasonNumber = TitleReader.GetSeasonNumber(match);
 
                 var episodeNumber = TitleReader.GetEpisodeNumber(match);
@@ -72,7 +72,7 @@
 
                 FileNameBuilder.Build(model, false);
 
-                DownloadRenamer.FileRenamer.Rename(model);
+                DownloadRenamer.FileRenamer.StartRename(model);
             }
             else
             {

@@ -1,9 +1,9 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System;
-    using System.Diagnostics;
-    using System.Windows.Forms;
+﻿using System;
+using System.Diagnostics;
+using System.Windows.Forms;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public static class Program
     {
         [STAThread]

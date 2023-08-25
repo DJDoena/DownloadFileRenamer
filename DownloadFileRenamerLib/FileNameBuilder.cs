@@ -1,9 +1,9 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System.IO;
-    using System.Linq;
-    using System.Text;
+﻿using System.IO;
+using System.Linq;
+using System.Text;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public static class FileNameBuilder
     {
         public static void Build(EpisodeModel model, bool silent)

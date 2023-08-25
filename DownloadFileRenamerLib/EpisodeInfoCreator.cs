@@ -1,10 +1,10 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System.IO;
-    using System.Text;
-    using System.Xml;
-    using ToolBox.Generics;
+﻿using System.IO;
+using System.Text;
+using System.Xml;
+using DoenaSoft.ToolBox.Generics;
 
+namespace DoenaSoft.DownloadRenamer
+{
     internal static class EpisodeInfoCreator
     {
         public static void Create(string videoFileName, string seriesShortName, string title, string airdate, string seasonAndEpisode, string tvdbId)

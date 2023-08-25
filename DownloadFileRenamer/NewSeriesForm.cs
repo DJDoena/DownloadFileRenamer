@@ -1,13 +1,13 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Web;
-    using System.Windows.Forms;
-    using CopySeries;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Windows.Forms;
+using DoenaSoft.CopySeries;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public partial class NewSeriesForm : Form
     {
         internal string NewShortName { get; private set; }

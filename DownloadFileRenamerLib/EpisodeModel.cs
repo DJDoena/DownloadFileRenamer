@@ -1,8 +1,8 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System;
-    using CopySeries;
+﻿using System;
+using DoenaSoft.CopySeries;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public sealed class EpisodeModel
     {
         private string _sourceFileName;

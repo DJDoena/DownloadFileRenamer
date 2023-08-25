@@ -1,8 +1,8 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System.Diagnostics;
-    using System.Xml.Serialization;
+﻿using System.Diagnostics;
+using System.Xml.Serialization;
 
+namespace DoenaSoft.DownloadRenamer
+{
     [XmlRoot]
     public sealed class CrypticNames
     {

@@ -1,12 +1,12 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-    using CopySeries;
-    using ToolBox.Generics;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using DoenaSoft.CopySeries;
+using DoenaSoft.ToolBox.Generics;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public static class Helper
     {
         private static readonly string _root;

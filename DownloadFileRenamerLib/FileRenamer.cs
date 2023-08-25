@@ -1,20 +1,29 @@
-﻿namespace DoenaSoft.DownloadRenamer
-{
-    using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
+namespace DoenaSoft.DownloadRenamer
+{
     public static class FileRenamer
     {
-        public static void Rename(EpisodeModel model)
+        private static readonly object _lock;
+
+        private static readonly Dictionary<string, string> _renames;
+
+        static FileRenamer()
+        {
+            _lock = new object();
+
+            _renames = new Dictionary<string, string>();
+        }
+
+        public static void StartRename(EpisodeModel model)
         {
             var sourceFileInfo = new FileInfo(model.SourceFileName);
 
             var targetFileName = Path.Combine(sourceFileInfo.DirectoryName, model.TargetFileName);
 
-            if (sourceFileInfo.FullName != targetFileName)
-            {
-                File.Move(sourceFileInfo.FullName, targetFileName);
-                //sourceFileInfo.MoveTo(targetFileName); //do not use, it changes the source file's FileInfo
-            }
+            TryAdd(sourceFileInfo, targetFileName);
 
             string title;
             if (!string.IsNullOrEmpty(model.FullEpisodeName))
@@ -51,17 +60,37 @@
 
             foreach (var partnerSourceFile in partnerSourceFiles)
             {
-                if (partnerSourceFile.FullName == targetFileName)
+                if (Path.GetFullPath(partnerSourceFile.FullName) == Path.GetFullPath(targetFileName))
                 {
                     continue;
                 }
 
                 var partnerTargetFileName = GetPartnerTargetFileName(partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
 
-                if (partnerSourceFile.FullName != partnerTargetFileName)
+                TryAdd(partnerSourceFile, partnerTargetFileName);
+            }
+        }
+
+        public static void FinishRename()
+        {
+            try
+            {
+                foreach (var kvp in _renames)
                 {
-                    File.Move(partnerSourceFile.FullName, partnerTargetFileName);
+                    var sourceFile = new FileInfo(kvp.Value);
+
+                    var targetFile = new FileInfo(kvp.Key);
+
+                    Console.WriteLine($@"{sourceFile.DirectoryName}\{sourceFile.Name} -> {targetFile.Name}");
+
+                    sourceFile.MoveTo(targetFile.FullName);
+
+                    File.SetAttributes(targetFile.FullName, FileAttributes.Archive);
                 }
+            }
+            finally
+            {
+                _renames.Clear();
             }
         }
 
@@ -97,6 +126,35 @@
             partnerTargetFileName = Path.Combine(partnerSourceFile.DirectoryName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
 
             return partnerTargetFileName;
+        }
+
+        private static void TryAdd(FileInfo sourceFile, string targetFileName)
+        {
+            var sourceFileName = Path.GetFullPath(sourceFile.FullName);
+
+            targetFileName = Path.GetFullPath(targetFileName);
+
+            if (sourceFileName == targetFileName)
+            {
+                return;
+            }
+
+            if (File.Exists(targetFileName))
+            {
+                throw new Exception($"Target file '{targetFileName}' already exists on disk!");
+            }
+
+            lock (_lock)
+            {
+                try
+                {
+                    _renames.Add(targetFileName, sourceFileName);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Target file '{targetFileName}' is already target of source file '{sourceFileName}", ex);
+                }
+            }
         }
     }
 }
