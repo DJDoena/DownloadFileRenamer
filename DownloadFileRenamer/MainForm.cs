@@ -255,9 +255,11 @@ namespace DoenaSoft.DownloadRenamer
 
             try
             {
-                FileRenamer.StartRename(_model);
+                RenameQueue.StartRename();
 
-                FileRenamer.FinishRename();
+                FileRenamer.AddRename(_model);
+
+                RenameQueue.FinishRename();
 
                 this.Clean();
             }

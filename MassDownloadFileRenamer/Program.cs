@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using DoenaSoft.DownloadRenamer;
 
 namespace DoenaSoft.MassDownloadFileRenamer
 {
@@ -51,6 +52,8 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
             try
             {
+                RenameQueue.StartRename();
+
                 foreach (var fileName in fileNames)
                 {
                     var file = new FileInfo(fileName);
@@ -58,7 +61,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
                     renamer.Rename(file);
                 }
 
-                DownloadRenamer.FileRenamer.FinishRename();
+                RenameQueue.FinishRename();
             }
             catch (Exception ex)
             {

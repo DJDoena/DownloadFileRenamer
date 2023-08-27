@@ -72,7 +72,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
                 FileNameBuilder.Build(model, false);
 
-                DownloadRenamer.FileRenamer.StartRename(model);
+                DownloadRenamer.FileRenamer.AddRename(model);
             }
             else
             {
