@@ -9,6 +9,8 @@
 		<AssemblyName>DownloadRenamer</AssemblyName>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ApplicationIcon>djdsoft.ico</ApplicationIcon>
+		<Version>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</Version>
+		<FileVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,6 +23,21 @@
 
 	<ItemGroup>
 		<Reference Include="System.Web" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resource.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resource.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resource.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>
