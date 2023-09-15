@@ -13,9 +13,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="DoenaSoft.CopySeriesXml" Version="1.0.2" />
-		<PackageReference Include="DoenaSoft.ToolBox">
-			<Version>2.0.0</Version>
-		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
