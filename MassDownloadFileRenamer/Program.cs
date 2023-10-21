@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using DoenaSoft.DownloadRenamer;
 
@@ -8,11 +9,11 @@ namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal static class Program
     {
-        private const string TitleFile = @"D:\BurnNotice.csv";
+        private const string TitleFile = @"D:\genv.csv";
 
-        private const string ShortName = "BurnNotice";
+        private const string ShortName = "GenV";
 
-        private const string SourceFolder = @"N:\Fresh Downloads\SeriesPacks\BurnNotice";
+        private const string SourceFolder = @"N:\Fresh Downloads\Finished\GenV";
 
         private const bool UseTvdb = true;
 
@@ -28,8 +29,11 @@ namespace DoenaSoft.MassDownloadFileRenamer
         //1x01
         //private static readonly Regex _fileNameRegex = new Regex("(?'Season'[0-9])x(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        //101
+        //-101
         //private static readonly Regex _fileNameRegex = new Regex("-(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        //- 101 -
+        //private static readonly Regex _fileNameRegex = new Regex("- (?'Season'[1-9])(?'Episode'[0-5][0-9]) -", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         //
         //private static readonly Regex _fileNameRegex = new Regex("S(?'Season'[1-9])E(?'Episode'[0-3][0-9])(E(?'Episode2'[0-3][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -47,19 +51,17 @@ namespace DoenaSoft.MassDownloadFileRenamer
             }
 
             var renamer = new FileRenamer(_fileNameRegex, episodeTitles, ShortName, Resolution, GermanAudio);
+            //var renamer = new SequentialFileRenamer(episodeTitles, ShortName, Resolution, GermanAudio);
 
-            var fileNames = Directory.GetFiles(SourceFolder, $"*{Extension}", SearchOption.TopDirectoryOnly);
+            var files = Directory.GetFiles(SourceFolder, $"*{Extension}", SearchOption.TopDirectoryOnly)
+                .Select(fn => new FileInfo(fn))
+                .ToList();
 
             try
             {
                 RenameQueue.StartRename();
 
-                foreach (var fileName in fileNames)
-                {
-                    var file = new FileInfo(fileName);
-
-                    renamer.Rename(file);
-                }
+                renamer.Rename(files);
 
                 RenameQueue.FinishRename();
             }

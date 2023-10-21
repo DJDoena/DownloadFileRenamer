@@ -33,6 +33,14 @@ namespace DoenaSoft.MassDownloadFileRenamer
             _showName = Helper.ReadNames().First(n => n.ShortName == shortName);
         }
 
+        public void Rename(IEnumerable<FileInfo> files)
+        {
+            foreach (var file in files)
+            {
+                this.Rename(file);
+            }
+        }
+
         public void Rename(FileInfo file)
         {
             var match = _fileNameRegex.Match(file.Name);
