@@ -9,11 +9,11 @@ namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal static class Program
     {
-        private const string TitleFile = @"D:\genv.csv";
+        private const string TitleFile = @"D:\VeronicaMars.csv";
 
-        private const string ShortName = "GenV";
+        private const string ShortName = "VeronicaMars";
 
-        private const string SourceFolder = @"N:\Fresh Downloads\Finished\GenV";
+        private const string SourceFolder = @"N:\Fresh Downloads\VeronicaMars";
 
         private const bool UseTvdb = true;
 
