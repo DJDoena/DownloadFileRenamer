@@ -128,7 +128,7 @@ namespace DoenaSoft.DownloadRenamer
             {
                 DeCheckbox.Checked = false;
 
-                if (SeriesNameComboBox.SelectedIndex != -1 && GetSelectedName().OriginalLanguage == "ger")
+                if (SeriesNameComboBox.SelectedIndex != -1 && this.GetSelectedName().OriginalLanguage == "ger")
                 {
                     DeCheckbox.Checked = true;
                 }
@@ -488,6 +488,14 @@ namespace DoenaSoft.DownloadRenamer
         private void OnDeCheckboxCheckedChanged(object sender, EventArgs e)
         {
             _model.GermanAudio = DeCheckbox.Checked;
+
+            try
+            {
+                FileNameBuilder.Build(_model, true);
+            }
+            catch
+            {
+            }
         }
 
         private void OnModelGermanAudioChanged(object sender, EventArgs e)
