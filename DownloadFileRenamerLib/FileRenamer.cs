@@ -8,11 +8,15 @@ public sealed class FileRenamer
 
     private readonly IRenameQueue _renameQueue;
 
+    private readonly EpisodeInfoCreator _nfoCreator;
+
     public FileRenamer(IIOServices ioServices
         , IRenameQueue renameQueue)
     {
         _ioServices = ioServices;
         _renameQueue = renameQueue;
+
+        _nfoCreator = new EpisodeInfoCreator(ioServices);
     }
 
     public void AddRename(EpisodeModel model)
@@ -47,7 +51,7 @@ public sealed class FileRenamer
 
         var seriesName = model.ShowName;
 
-        EpisodeInfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, model.TvdbId);
+        _nfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, model.TvdbId);
 
         var partnerFilesSourceName = _ioServices.Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
 
