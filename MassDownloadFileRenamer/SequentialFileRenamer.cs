@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using DoenaSoft.AbstractionLayer.IOServices;
 using DoenaSoft.CopySeries;
 using DoenaSoft.DownloadRenamer;
 
@@ -8,6 +8,10 @@ namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal sealed class SequentialFileRenamer
     {
+        private readonly IOServices _ioServices;
+
+        private readonly RenameQueue _renameQueue;
+
         private readonly Dictionary<string, Dictionary<string, string>> _episodeTitles;
 
         private readonly string _resolution;
@@ -16,8 +20,15 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
         private readonly Name _showName;
 
-        public SequentialFileRenamer(Dictionary<string, Dictionary<string, string>> episodeTitles, string shortName, string resolution, bool germanAudio)
+        public SequentialFileRenamer(IOServices ioServices
+            , RenameQueue renameQueue
+            , Dictionary<string, Dictionary<string, string>> episodeTitles
+            , string shortName
+            , string resolution
+            , bool germanAudio)
         {
+            _ioServices = ioServices;
+            _renameQueue = renameQueue;
             _episodeTitles = episodeTitles;
 
             _resolution = resolution;
@@ -27,7 +38,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
             _showName = Helper.ReadNames().First(n => n.ShortName == shortName);
         }
 
-        public void Rename(IEnumerable<FileInfo> files)
+        public void Rename(IEnumerable<IFileInfo> files)
         {
             var orderedFiles = files
                 .OrderBy(f => f.Name)
@@ -75,7 +86,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
                     FileNameBuilder.Build(model, false);
 
-                    DownloadRenamer.FileRenamer.AddRename(model);
+                    DownloadRenamer.FileRenamer.AddRename(model, _ioServices, _renameQueue);
 
                     fileIndex++;
                 }

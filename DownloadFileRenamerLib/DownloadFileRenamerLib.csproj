@@ -5,6 +5,7 @@
 		<OutputType>Library</OutputType>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Platforms>x64</Platforms>
+		<LangVersion>10.0</LangVersion>
 		<RootNamespace>DoenaSoft.DownloadRenamer</RootNamespace>
 		<AssemblyName>DownloadFileRenamerLib</AssemblyName>
 		<Version>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</Version>
@@ -12,7 +13,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DoenaSoft.CopySeriesXml" Version="1.0.2" />
+		<PackageReference Include="DoenaSoft.AbstractionLayer.IO" Version="2.0.5" />
+		<PackageReference Include="DoenaSoft.CopySeries.Xml" Version="1.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>

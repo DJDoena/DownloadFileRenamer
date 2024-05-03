@@ -1,95 +1,95 @@
-﻿using System.IO;
+﻿using DoenaSoft.AbstractionLayer.IOServices;
 
-namespace DoenaSoft.DownloadRenamer
+namespace DoenaSoft.DownloadRenamer;
+
+public static class FileRenamer
 {
-    public static class FileRenamer
+    public static void AddRename(EpisodeModel model
+        , IIOServices ioServices
+        , IRenameQueue renameQueue)
     {
-        public static void AddRename(EpisodeModel model)
+        var sourceFileInfo = ioServices.GetFileInfo(model.SourceFileName);
+
+        var targetFileName = ioServices.Path.Combine(sourceFileInfo.FolderName, model.TargetFileName);
+
+        renameQueue.Add(sourceFileInfo, targetFileName);
+
+        string title;
+        if (!string.IsNullOrEmpty(model.FullEpisodeName))
         {
-            var sourceFileInfo = new FileInfo(model.SourceFileName);
+            title = model.FullEpisodeName;
 
-            var targetFileName = Path.Combine(sourceFileInfo.DirectoryName, model.TargetFileName);
+            var titleFileName = targetFileName + ".title";
 
-            RenameQueue.TryAdd(sourceFileInfo, targetFileName);
+            using var sw = ioServices.File.CreateText(titleFileName);
 
-            string title;
-            if (!string.IsNullOrEmpty(model.FullEpisodeName))
+            if (!string.IsNullOrEmpty(model.AirDate))
             {
-                title = model.FullEpisodeName;
-
-                var titleFileName = targetFileName + ".title";
-
-                using (var sw = File.CreateText(titleFileName))
-                {
-                    if (!string.IsNullOrEmpty(model.AirDate))
-                    {
-                        sw.Write(model.AirDate);
-                        sw.Write(" ");
-                    }
-
-                    sw.WriteLine(model.FullEpisodeName);
-                }
-            }
-            else
-            {
-                title = model.EpisodeName;
+                sw.Write(model.AirDate);
+                sw.Write(" ");
             }
 
-            var seriesName = model.ShowName;
-
-            EpisodeInfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, model.TvdbId);
-
-            var partnerFilesSourceName = Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
-
-            var partnerSourceFiles = sourceFileInfo.Directory.GetFiles($"{partnerFilesSourceName}*.*", SearchOption.TopDirectoryOnly);
-
-            var partnerTargetFileNamePrefix = Path.GetFileNameWithoutExtension(targetFileName);
-
-            foreach (var partnerSourceFile in partnerSourceFiles)
-            {
-                if (Path.GetFullPath(partnerSourceFile.FullName) == Path.GetFullPath(sourceFileInfo.FullName))
-                {
-                    continue;
-                }
-
-                var partnerTargetFileName = GetPartnerTargetFileName(partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
-
-                RenameQueue.TryAdd(partnerSourceFile, partnerTargetFileName);
-            }
+            sw.WriteLine(model.FullEpisodeName);
+        }
+        else
+        {
+            title = model.EpisodeName;
         }
 
-        private static string GetPartnerTargetFileName(FileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
+        var seriesName = model.ShowName;
+
+        EpisodeInfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, model.TvdbId);
+
+        var partnerFilesSourceName = ioServices.Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
+
+        var partnerSourceFiles = sourceFileInfo.Folder.GetFiles($"{partnerFilesSourceName}*.*", System.IO.SearchOption.TopDirectoryOnly);
+
+        var partnerTargetFileNamePrefix = ioServices.Path.GetFileNameWithoutExtension(targetFileName);
+
+        foreach (var partnerSourceFile in partnerSourceFiles)
         {
-            var partnerTargetFileName = Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
-
-            var partnerFileExtension = Path.GetExtension(partnerSourceFile.Name);
-
-            switch (partnerFileExtension)
+            if (ioServices.Path.GetFullPath(partnerSourceFile.FullName) == ioServices.Path.GetFullPath(sourceFileInfo.FullName))
             {
-                case ".title":
-                case ".nfo":
-                    {
-                        return partnerSourceFile.FullName;
-                    }
+                continue;
             }
 
-            if (partnerTargetFileName.Length == partnerFilesSourceName.Length)
-            {
-                partnerTargetFileName = partnerTargetFileName.Replace(partnerFilesSourceName, partnerTargetFileNamePrefix);
-            }
-            else
-            {
-                partnerTargetFileName = partnerTargetFileName.Replace(partnerFilesSourceName, $"{partnerTargetFileNamePrefix}.");
-            }
+            var partnerTargetFileName = GetPartnerTargetFileName(ioServices, partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
 
-            if (partnerTargetFileName.StartsWith($"{partnerTargetFileNamePrefix}.-"))
-            {
-                partnerTargetFileName = partnerTargetFileName.Replace($"{partnerTargetFileNamePrefix}.-", $"{partnerTargetFileNamePrefix}.");
-            }
-
-            partnerTargetFileName = Path.Combine(partnerSourceFile.DirectoryName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
-
-            return partnerTargetFileName;
+            renameQueue.Add(partnerSourceFile, partnerTargetFileName);
         }
+    }
+
+    private static string GetPartnerTargetFileName(IIOServices ioServices, IFileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
+    {
+        var partnerTargetFileName = ioServices.Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
+
+        var partnerFileExtension = ioServices.Path.GetExtension(partnerSourceFile.Name);
+
+        switch (partnerFileExtension)
+        {
+            case ".title":
+            case ".nfo":
+                {
+                    return partnerSourceFile.FullName;
+                }
+        }
+
+        if (partnerTargetFileName.Length == partnerFilesSourceName.Length)
+        {
+            partnerTargetFileName = partnerTargetFileName.Replace(partnerFilesSourceName, partnerTargetFileNamePrefix);
+        }
+        else
+        {
+            partnerTargetFileName = partnerTargetFileName.Replace(partnerFilesSourceName, $"{partnerTargetFileNamePrefix}.");
+        }
+
+        if (partnerTargetFileName.StartsWith($"{partnerTargetFileNamePrefix}.-"))
+        {
+            partnerTargetFileName = partnerTargetFileName.Replace($"{partnerTargetFileNamePrefix}.-", $"{partnerTargetFileNamePrefix}.");
+        }
+
+        partnerTargetFileName = ioServices.Path.Combine(partnerSourceFile.FolderName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
+
+        return partnerTargetFileName;
     }
 }

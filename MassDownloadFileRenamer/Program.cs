@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DoenaSoft.DownloadRenamer;
+using DoenaSoft.AbstractionLayer.IOServices;
+using SIO = System.IO;
 
 namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal static class Program
     {
-        private const string TitleFile = @"D:\WestWing.csv";
+        private const string ShortName = "Hercules";
 
-        private const string ShortName = "WestWing";
+        private const string TitleFile = @"D:\" + ShortName + ".csv";
 
-        private const string SourceFolder = @"N:\Fresh Downloads\WestWing";
+        private const string SourceFolder = @"N:\Fresh Downloads\" + ShortName;
 
         private const bool UseTvdb = true;
 
@@ -27,7 +27,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
         private static readonly Regex _fileNameRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])(E(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         //1x01
-        //private static readonly Regex _fileNameRegex = new Regex("(?'Season'[0-9])x(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        //private static readonly Regex _fileNameRegex = new Regex("(?'Season'[0-9])x(?'Episode'[0-3][0-9])(x(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         //-101
         //private static readonly Regex _fileNameRegex = new Regex("-(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -50,20 +50,23 @@ namespace DoenaSoft.MassDownloadFileRenamer
                 return;
             }
 
-            var renamer = new FileRenamer(_fileNameRegex, episodeTitles, ShortName, Resolution, GermanAudio);
-            //var renamer = new SequentialFileRenamer(episodeTitles, ShortName, Resolution, GermanAudio);
+            var ioServices = new IOServices();
 
-            var files = Directory.GetFiles(SourceFolder, $"*{Extension}", SearchOption.TopDirectoryOnly)
-                .Select(fn => new FileInfo(fn))
+            var renameQueue = new RenameQueue(ioServices);
+
+            var renamer = new FileRenamer(ioServices, renameQueue, _fileNameRegex, episodeTitles, ShortName, Resolution, GermanAudio);
+            //var renamer = new SequentialFileRenamer(ioServices, renameQueue, episodeTitles, ShortName, Resolution, GermanAudio);
+
+            var files = ioServices.Folder.GetFiles(SourceFolder, $"*{Extension}", SIO.SearchOption.TopDirectoryOnly)
                 .ToList();
 
             try
             {
-                RenameQueue.StartRename();
+                renameQueue.StartRename();
 
                 renamer.Rename(files);
 
-                RenameQueue.FinishRename();
+                renameQueue.FinishRename();
             }
             catch (Exception ex)
             {

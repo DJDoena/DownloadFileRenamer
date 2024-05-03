@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DoenaSoft.AbstractionLayer.IOServices;
 using DoenaSoft.CopySeries;
 using DoenaSoft.DownloadRenamer;
 
@@ -10,6 +10,10 @@ namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal sealed class FileRenamer
     {
+        private readonly IOServices _ioServices;
+
+        private readonly RenameQueue _renameQueue;
+
         private readonly Regex _fileNameRegex;
 
         private readonly Dictionary<string, Dictionary<string, string>> _episodeTitles;
@@ -20,8 +24,18 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
         private readonly Name _showName;
 
-        public FileRenamer(Regex fileNameRegex, Dictionary<string, Dictionary<string, string>> episodeTitles, string shortName, string resolution, bool germanAudio)
+        public FileRenamer(IOServices ioServices
+            , RenameQueue renameQueue
+            , Regex fileNameRegex
+            , Dictionary<string, Dictionary<string, string>> episodeTitles
+            , string shortName
+            , string resolution
+            , bool germanAudio)
         {
+            _ioServices = ioServices;
+
+            _renameQueue = renameQueue;
+
             _fileNameRegex = fileNameRegex;
 
             _episodeTitles = episodeTitles;
@@ -33,7 +47,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
             _showName = Helper.ReadNames().First(n => n.ShortName == shortName);
         }
 
-        public void Rename(IEnumerable<FileInfo> files)
+        public void Rename(IEnumerable<IFileInfo> files)
         {
             foreach (var file in files)
             {
@@ -41,7 +55,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
             }
         }
 
-        public void Rename(FileInfo file)
+        public void Rename(IFileInfo file)
         {
             var match = _fileNameRegex.Match(file.Name);
 
@@ -80,7 +94,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
                 FileNameBuilder.Build(model, false);
 
-                DownloadRenamer.FileRenamer.AddRename(model);
+                DownloadRenamer.FileRenamer.AddRename(model, _ioServices, _renameQueue);
             }
             else
             {

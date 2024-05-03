@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using DoenaSoft.AbstractionLayer.IOServices;
 using DoenaSoft.CopySeries;
 
 namespace DoenaSoft.DownloadRenamer
@@ -255,11 +256,15 @@ namespace DoenaSoft.DownloadRenamer
 
             try
             {
-                RenameQueue.StartRename();
+                var ioServices = new IOServices();
 
-                FileRenamer.AddRename(_model);
+                var renameQueue = new RenameQueue(ioServices);
 
-                RenameQueue.FinishRename();
+                renameQueue.StartRename();
+
+                FileRenamer.AddRename(_model, ioServices, renameQueue);
+
+                renameQueue.FinishRename();
 
                 this.Clean();
             }
