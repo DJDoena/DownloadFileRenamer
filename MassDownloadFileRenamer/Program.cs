@@ -54,8 +54,10 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
             var renameQueue = new RenameQueue(ioServices);
 
-            var renamer = new FileRenamer(ioServices, renameQueue, _fileNameRegex, episodeTitles, ShortName, Resolution, GermanAudio);
-            //var renamer = new SequentialFileRenamer(ioServices, renameQueue, episodeTitles, ShortName, Resolution, GermanAudio);
+            var actualRenamer = new DownloadRenamer.FileRenamer(ioServices, renameQueue);
+
+            var renamer = new FileRenamer(actualRenamer, _fileNameRegex, episodeTitles, ShortName, Resolution, GermanAudio);
+            //var renamer = new SequentialFileRenamer(actualRenamer, episodeTitles, ShortName, Resolution, GermanAudio);
 
             var files = ioServices.Folder.GetFiles(SourceFolder, $"*{Extension}", SIO.SearchOption.TopDirectoryOnly)
                 .ToList();

@@ -8,9 +8,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal sealed class SequentialFileRenamer
     {
-        private readonly IOServices _ioServices;
-
-        private readonly RenameQueue _renameQueue;
+        private readonly DownloadRenamer.FileRenamer _actualRenamer;
 
         private readonly Dictionary<string, Dictionary<string, string>> _episodeTitles;
 
@@ -20,15 +18,14 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
         private readonly Name _showName;
 
-        public SequentialFileRenamer(IOServices ioServices
-            , RenameQueue renameQueue
+        public SequentialFileRenamer(DownloadRenamer.FileRenamer actualRenamer
             , Dictionary<string, Dictionary<string, string>> episodeTitles
             , string shortName
             , string resolution
             , bool germanAudio)
         {
-            _ioServices = ioServices;
-            _renameQueue = renameQueue;
+            _actualRenamer = actualRenamer;
+
             _episodeTitles = episodeTitles;
 
             _resolution = resolution;
@@ -61,34 +58,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
                         break;
                     }
 
-                    var file = orderedFiles[fileIndex];
-
-                    var seasonNumber = season.Key;
-
-                    var episodeNumber = episode.Key;
-
-                    var episodeName = episode.Value;
-
-                    var seasonAndEpisode = episodeNumber.Length == 1
-                       ? $"{seasonNumber}x0{episodeNumber}"
-                       : $"{seasonNumber}x{episodeNumber}";
-
-                    var model = new EpisodeModel()
-                    {
-                        SourceFileName = file.FullName,
-                        ShowName = _showName,
-                        EpisodeName = episodeName,
-                        EpisodeNumber = seasonAndEpisode,
-                        Resolution = _resolution,
-                        GermanAudio = _germanAudio,
-                        Extension = file.Extension,
-                    };
-
-                    FileNameBuilder.Build(model, false);
-
-                    DownloadRenamer.FileRenamer.AddRename(model, _ioServices, _renameQueue);
-
-                    fileIndex++;
+                    this.Rename(orderedFiles, ref fileIndex, season.Key, episode.Key, episode.Value);
                 }
 
                 if (fileIndex >= orderedFiles.Count)
@@ -96,6 +66,36 @@ namespace DoenaSoft.MassDownloadFileRenamer
                     break;
                 }
             }
+        }
+
+        private void Rename(List<IFileInfo> files
+            , ref int fileIndex
+            , string seasonNumber
+            , string episodeNumber
+            , string episodeName)
+        {
+            var file = files[fileIndex];
+
+            var seasonAndEpisode = episodeNumber.Length == 1
+               ? $"{seasonNumber}x0{episodeNumber}"
+               : $"{seasonNumber}x{episodeNumber}";
+
+            var model = new EpisodeModel()
+            {
+                SourceFileName = file.FullName,
+                ShowName = _showName,
+                EpisodeName = episodeName,
+                EpisodeNumber = seasonAndEpisode,
+                Resolution = _resolution,
+                GermanAudio = _germanAudio,
+                Extension = file.Extension,
+            };
+
+            FileNameBuilder.Build(model, false);
+
+            _actualRenamer.AddRename(model);
+
+            fileIndex++;
         }
     }
 }

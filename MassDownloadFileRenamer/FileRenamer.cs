@@ -10,9 +10,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal sealed class FileRenamer
     {
-        private readonly IOServices _ioServices;
-
-        private readonly RenameQueue _renameQueue;
+        private readonly DownloadRenamer.FileRenamer _actualRenamer;
 
         private readonly Regex _fileNameRegex;
 
@@ -24,18 +22,14 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
         private readonly Name _showName;
 
-        public FileRenamer(IOServices ioServices
-            , RenameQueue renameQueue
+        public FileRenamer(DownloadRenamer.FileRenamer actualRenamer
             , Regex fileNameRegex
             , Dictionary<string, Dictionary<string, string>> episodeTitles
             , string shortName
             , string resolution
             , bool germanAudio)
         {
-            _ioServices = ioServices;
-
-            _renameQueue = renameQueue;
-
+            _actualRenamer = actualRenamer;
             _fileNameRegex = fileNameRegex;
 
             _episodeTitles = episodeTitles;
@@ -94,7 +88,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
                 FileNameBuilder.Build(model, false);
 
-                DownloadRenamer.FileRenamer.AddRename(model, _ioServices, _renameQueue);
+                _actualRenamer.AddRename(model);
             }
             else
             {

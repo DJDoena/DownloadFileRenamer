@@ -262,7 +262,7 @@ namespace DoenaSoft.DownloadRenamer
 
                 renameQueue.StartRename();
 
-                FileRenamer.AddRename(_model, ioServices, renameQueue);
+                (new FileRenamer(ioServices, renameQueue)).AddRename(_model);
 
                 renameQueue.FinishRename();
 

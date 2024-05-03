@@ -2,17 +2,26 @@
 
 namespace DoenaSoft.DownloadRenamer;
 
-public static class FileRenamer
+public sealed class FileRenamer
 {
-    public static void AddRename(EpisodeModel model
-        , IIOServices ioServices
+    private readonly IIOServices _ioServices;
+
+    private readonly IRenameQueue _renameQueue;
+
+    public FileRenamer(IIOServices ioServices
         , IRenameQueue renameQueue)
     {
-        var sourceFileInfo = ioServices.GetFileInfo(model.SourceFileName);
+        _ioServices = ioServices;
+        _renameQueue = renameQueue;
+    }
 
-        var targetFileName = ioServices.Path.Combine(sourceFileInfo.FolderName, model.TargetFileName);
+    public void AddRename(EpisodeModel model)
+    {
+        var sourceFileInfo = _ioServices.GetFileInfo(model.SourceFileName);
 
-        renameQueue.Add(sourceFileInfo, targetFileName);
+        var targetFileName = _ioServices.Path.Combine(sourceFileInfo.FolderName, model.TargetFileName);
+
+        _renameQueue.Add(sourceFileInfo, targetFileName);
 
         string title;
         if (!string.IsNullOrEmpty(model.FullEpisodeName))
@@ -21,7 +30,7 @@ public static class FileRenamer
 
             var titleFileName = targetFileName + ".title";
 
-            using var sw = ioServices.File.CreateText(titleFileName);
+            using var sw = _ioServices.File.CreateText(titleFileName);
 
             if (!string.IsNullOrEmpty(model.AirDate))
             {
@@ -40,30 +49,30 @@ public static class FileRenamer
 
         EpisodeInfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, model.TvdbId);
 
-        var partnerFilesSourceName = ioServices.Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
+        var partnerFilesSourceName = _ioServices.Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
 
         var partnerSourceFiles = sourceFileInfo.Folder.GetFiles($"{partnerFilesSourceName}*.*", System.IO.SearchOption.TopDirectoryOnly);
 
-        var partnerTargetFileNamePrefix = ioServices.Path.GetFileNameWithoutExtension(targetFileName);
+        var partnerTargetFileNamePrefix = _ioServices.Path.GetFileNameWithoutExtension(targetFileName);
 
         foreach (var partnerSourceFile in partnerSourceFiles)
         {
-            if (ioServices.Path.GetFullPath(partnerSourceFile.FullName) == ioServices.Path.GetFullPath(sourceFileInfo.FullName))
+            if (_ioServices.Path.GetFullPath(partnerSourceFile.FullName) == _ioServices.Path.GetFullPath(sourceFileInfo.FullName))
             {
                 continue;
             }
 
-            var partnerTargetFileName = GetPartnerTargetFileName(ioServices, partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
+            var partnerTargetFileName = this.GetPartnerTargetFileName(partnerSourceFile, partnerFilesSourceName, partnerTargetFileNamePrefix);
 
-            renameQueue.Add(partnerSourceFile, partnerTargetFileName);
+            _renameQueue.Add(partnerSourceFile, partnerTargetFileName);
         }
     }
 
-    private static string GetPartnerTargetFileName(IIOServices ioServices, IFileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
+    private string GetPartnerTargetFileName(IFileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
     {
-        var partnerTargetFileName = ioServices.Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
+        var partnerTargetFileName = _ioServices.Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
 
-        var partnerFileExtension = ioServices.Path.GetExtension(partnerSourceFile.Name);
+        var partnerFileExtension = _ioServices.Path.GetExtension(partnerSourceFile.Name);
 
         switch (partnerFileExtension)
         {
@@ -88,7 +97,7 @@ public static class FileRenamer
             partnerTargetFileName = partnerTargetFileName.Replace($"{partnerTargetFileNamePrefix}.-", $"{partnerTargetFileNamePrefix}.");
         }
 
-        partnerTargetFileName = ioServices.Path.Combine(partnerSourceFile.FolderName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
+        partnerTargetFileName = _ioServices.Path.Combine(partnerSourceFile.FolderName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
 
         return partnerTargetFileName;
     }
