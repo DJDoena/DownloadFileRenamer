@@ -9,7 +9,7 @@ namespace DoenaSoft.MassDownloadFileRenamer
 {
     internal static class Program
     {
-        private const string ShortName = "Hercules";
+        private const string ShortName = "Monk";
 
         private const string TitleFile = @"D:\" + ShortName + ".csv";
 
@@ -24,13 +24,13 @@ namespace DoenaSoft.MassDownloadFileRenamer
         private const bool GermanAudio = true;
 
         //S01E01
-        private static readonly Regex _fileNameRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])(E(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        //private static readonly Regex _fileNameRegex = new Regex("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])(E(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         //1x01
         //private static readonly Regex _fileNameRegex = new Regex("(?'Season'[0-9])x(?'Episode'[0-3][0-9])(x(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         //-101
-        //private static readonly Regex _fileNameRegex = new Regex("-(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex _fileNameRegex = new Regex("-(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         //- 101 -
         //private static readonly Regex _fileNameRegex = new Regex("- (?'Season'[1-9])(?'Episode'[0-5][0-9]) -", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -68,7 +68,9 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
                 renamer.Rename(files);
 
-                renameQueue.FinishRename();
+                var count = renameQueue.FinishRename();
+
+                Console.WriteLine($"{count} renamed.");
             }
             catch (Exception ex)
             {
