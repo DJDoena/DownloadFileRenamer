@@ -3,12 +3,13 @@
 	<PropertyGroup>
 		<TargetFramework>net472</TargetFramework>
 		<OutputType>Exe</OutputType>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<Platforms>x64</Platforms>
 		<RootNamespace>DoenaSoft.MassDownloadFileRenamer</RootNamespace>
 		<AssemblyName>MassDownloadFileRenamer</AssemblyName>
 		<Version>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</Version>
 		<FileVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</FileVersion>
+		<ApplicationIcon>..\DownloadFileRenamer\djdsoft.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>

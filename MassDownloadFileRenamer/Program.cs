@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using DoenaSoft.AbstractionLayer.IOServices;
 using SIO = System.IO;
@@ -40,6 +41,8 @@ namespace DoenaSoft.MassDownloadFileRenamer
 
         private static void Main()
         {
+            Console.WriteLine($"v{Assembly.GetExecutingAssembly().GetName().Version}");
+
             Debugger.Launch();
 
             if (!TitleReader.GetEpisodeTitles(TitleFile, UseTvdb, out var episodeTitles))

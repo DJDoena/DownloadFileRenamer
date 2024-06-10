@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using DoenaSoft.AbstractionLayer.IOServices;
 using DoenaSoft.CopySeries;
@@ -58,6 +59,8 @@ namespace DoenaSoft.DownloadRenamer
             _episodeNames = new HashSet<Tuple<string, string>>();
 
             this.Clean();
+
+            this.Text += $" {Assembly.GetExecutingAssembly().GetName().Version}";
         }
 
         private void Clean()
