@@ -1,149 +1,144 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Web;
-using System.Windows.Forms;
 using DoenaSoft.CopySeries;
 
-namespace DoenaSoft.DownloadRenamer
+namespace DoenaSoft.DownloadRenamer;
+
+public partial class NewSeriesForm : Form
 {
-    public partial class NewSeriesForm : Form
+    internal string NewShortName { get; private set; }
+
+    public NewSeriesForm()
     {
-        internal string NewShortName { get; private set; }
+        this.InitializeComponent();
 
-        public NewSeriesForm()
+        this.Icon = Resource.djdsoft;
+    }
+
+    private void OnCloseButtonClick(object sender, EventArgs e)
+    {
+        this.DialogResult = DialogResult.Cancel;
+
+        this.Close();
+    }
+
+    private void OnSaveButtonClick(object sender, EventArgs e)
+    {
+        var newShortName = ShortNameTextBox.Text.Trim();
+
+        var newLongName = LongNameTextBox.Text.Trim();
+
+        var link = UrlTextBox.Text.Trim();
+
+        if (string.IsNullOrEmpty(newShortName))
         {
-            this.InitializeComponent();
+            MessageBox.Show("No short name!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            this.Icon = Resource.djdsoft;
+            return;
+        }
+        else if (string.IsNullOrEmpty(newLongName))
+        {
+            MessageBox.Show("No long name!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return;
+        }
+        else if (string.IsNullOrEmpty(link))
+        {
+            MessageBox.Show("No link!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return;
         }
 
-        private void OnCloseButtonClick(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
+        var names = Helper.ReadNames();
 
-            this.Close();
+        if (AlreadyExists(names, n => n.ShortName.ToLower() == newShortName.ToLower())
+            || AlreadyExists(names, n => n.LongName.ToLower() == newLongName.ToLower()))
+        {
+            return;
         }
 
-        private void OnSaveButtonClick(object sender, EventArgs e)
+        var newName = new Name()
         {
-            var newShortName = ShortNameTextBox.Text.Trim();
+            ShortName = newShortName,
+            LongName = newLongName,
+            Link = link,
+            OriginalLanguage = OriginalLanguageTextBox.Text.Trim(),
+            SortName = !string.IsNullOrWhiteSpace(SortNameTextBox.Text) ? SortNameTextBox.Text.Trim() : null,
+            DisplayName = !string.IsNullOrWhiteSpace(DisplayNameTextBox.Text) ? DisplayNameTextBox.Text.Trim() : null,
+            LocalizedName = !string.IsNullOrWhiteSpace(LocalizedNameTextBox.Text) ? LocalizedNameTextBox.Text.Trim() : null,
+        };
 
-            var newLongName = LongNameTextBox.Text.Trim();
+        names.Insert(0, newName);
 
-            var link = UrlTextBox.Text.Trim();
+        Helper.WriteNames(names);
 
-            if (string.IsNullOrEmpty(newShortName))
+        this.NewShortName = newName.ShortName;
+
+        this.DialogResult = DialogResult.OK;
+
+        this.Close();
+    }
+
+    private static bool AlreadyExists(List<Name> names, Func<Name, bool> comparer)
+    {
+        var existing = names.FirstOrDefault(comparer);
+
+        if (existing != null)
+        {
+            if (MessageBox.Show($"{existing.LongName} already exists as {existing.ShortName}", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
-                MessageBox.Show("No short name!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                return;
+                return true;
             }
-            else if (string.IsNullOrEmpty(newLongName))
-            {
-                MessageBox.Show("No long name!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                return;
-            }
-            else if (string.IsNullOrEmpty(link))
-            {
-                MessageBox.Show("No link!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            var names = Helper.ReadNames();
-
-            if (AlreadyExists(names, n => n.ShortName.ToLower() == newShortName.ToLower())
-                || AlreadyExists(names, n => n.LongName.ToLower() == newLongName.ToLower()))
-            {
-                return;
-            }
-
-            var newName = new Name()
-            {
-                ShortName = newShortName,
-                LongName = newLongName,
-                Link = link,
-                OriginalLanguage = OriginalLanguageTextBox.Text.Trim(),
-                SortName = !string.IsNullOrWhiteSpace(SortNameTextBox.Text) ? SortNameTextBox.Text.Trim() : null,
-                DisplayName = !string.IsNullOrWhiteSpace(DisplayNameTextBox.Text) ? DisplayNameTextBox.Text.Trim() : null,
-                LocalizedName = !string.IsNullOrWhiteSpace(LocalizedNameTextBox.Text) ? LocalizedNameTextBox.Text.Trim() : null,
-            };
-
-            names.Insert(0, newName);
-
-            Helper.WriteNames(names);
-
-            this.NewShortName = newName.ShortName;
-
-            this.DialogResult = DialogResult.OK;
-
-            this.Close();
         }
 
-        private static bool AlreadyExists(List<Name> names, Func<Name, bool> comparer)
+        return false;
+    }
+
+    private void OnShortNameTextBoxTextChanged(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(LongNameTextBox.Text))
         {
-            var existing = names.FirstOrDefault(comparer);
-
-            if (existing != null)
-            {
-                if (MessageBox.Show($"{existing.LongName} already exists as {existing.ShortName}", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            LongNameTextBox.Text = ShortNameTextBox.Text;
         }
-
-        private void OnShortNameTextBoxTextChanged(object sender, EventArgs e)
+        else if (ShortNameTextBox.Text.IndexOf(LongNameTextBox.Text) == 0)
         {
-            if (string.IsNullOrWhiteSpace(LongNameTextBox.Text))
+            LongNameTextBox.Text = ShortNameTextBox.Text;
+        }
+        else if (LongNameTextBox.Text.Length > ShortNameTextBox.Text.Length)
+        {
+            var longName = LongNameTextBox.Text.Substring(0, ShortNameTextBox.Text.Length);
+
+            if (ShortNameTextBox.Text.IndexOf(longName) == 0)
             {
                 LongNameTextBox.Text = ShortNameTextBox.Text;
             }
-            else if (ShortNameTextBox.Text.IndexOf(LongNameTextBox.Text) == 0)
-            {
-                LongNameTextBox.Text = ShortNameTextBox.Text;
-            }
-            else if (LongNameTextBox.Text.Length > ShortNameTextBox.Text.Length)
-            {
-                var longName = LongNameTextBox.Text.Substring(0, ShortNameTextBox.Text.Length);
-
-                if (ShortNameTextBox.Text.IndexOf(longName) == 0)
-                {
-                    LongNameTextBox.Text = ShortNameTextBox.Text;
-                }
-            }
         }
+    }
 
-        private void OnSearchTvdbLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    private void OnSearchTvdbLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        var uriBuilder = new UriBuilder("https://thetvdb.com/search");
+
+        var query = HttpUtility.ParseQueryString(uriBuilder.ToString());
+
+        query.Add("query", LongNameTextBox.Text);
+
+        uriBuilder.Query = query.ToString();
+
+        Process.Start(uriBuilder.ToString());
+    }
+
+    private void OnPasteIDButtonClick(object sender, EventArgs e)
+    {
+        try
         {
-            var uriBuilder = new UriBuilder("https://thetvdb.com/search");
+            var id = Clipboard.GetText();
 
-            var query = HttpUtility.ParseQueryString(uriBuilder.ToString());
-
-            query.Add("query", LongNameTextBox.Text);
-
-            uriBuilder.Query = query.ToString();
-
-            Process.Start(uriBuilder.ToString());
+            UrlTextBox.Text = $"https://thetvdb.com/?tab=series&id={id}";
         }
-
-        private void OnPasteIDButtonClick(object sender, EventArgs e)
+        catch
         {
-            try
-            {
-                var id = Clipboard.GetText();
 
-                UrlTextBox.Text = $"https://thetvdb.com/?tab=series&id={id}";
-            }
-            catch
-            {
-
-            }
         }
     }
 }

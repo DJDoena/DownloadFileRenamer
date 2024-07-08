@@ -1,46 +1,44 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace DoenaSoft.DownloadRenamer
+namespace DoenaSoft.DownloadRenamer;
+
+public static class HtmlParser
 {
-    public static class HtmlParser
+    private static readonly Regex _urlRegex;
+
+    private static readonly Regex _nameRegex;
+
+    static HtmlParser()
     {
-        private static readonly Regex _urlRegex;
+        _urlRegex = new("<a (.*?)href=\"(?'Link'.+?)\"(.*?)>(?'Name'.+?)</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex _nameRegex;
+        _nameRegex = new("(<.+?>)?(?'Name'.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+    }
 
-        static HtmlParser()
+    public static void Parse(EpisodeModel model, string html)
+    {
+        var match = _urlRegex.Match(html);
+
+        if (match.Success)
         {
-            _urlRegex = new Regex("<a (.*?)href=\"(?'Link'.+?)\"(.*?)>(?'Name'.+?)</a>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            var name = match.Groups["Name"].Value;
 
-            _nameRegex = new Regex("(<.+?>)?(?'Name'.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
-        }
+            var nameMatch = _nameRegex.Match(name);
 
-        public static void Parse(EpisodeModel model, string html)
-        {
-            var match = _urlRegex.Match(html);
-
-            if (match.Success)
+            if (nameMatch.Success)
             {
-                var name = match.Groups["Name"].Value;
-
-                var nameMatch = _nameRegex.Match(name);
-
-                if (nameMatch.Success)
-                {
-                    name = nameMatch.Groups["Name"].Value;
-                }
-
-                var decoded = System.Web.HttpUtility.HtmlDecode(name);
-
-                model.EpisodeName = decoded.Replace("\r\n", string.Empty).Replace("\n", string.Empty).Trim();
-
-                var link = match.Groups["Link"].Value;
-
-                model.TvdbId = link.Split('/').Last();
-
-                FileNameBuilder.Build(model, false);
+                name = nameMatch.Groups["Name"].Value;
             }
+
+            var decoded = System.Web.HttpUtility.HtmlDecode(name);
+
+            model.EpisodeName = decoded.Replace("\r\n", string.Empty).Replace("\n", string.Empty).Trim();
+
+            var link = match.Groups["Link"].Value;
+
+            model.TvdbId = link.Split('/').Last();
+
+            FileNameBuilder.Build(model, false);
         }
     }
 }

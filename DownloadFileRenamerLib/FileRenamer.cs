@@ -16,7 +16,7 @@ public sealed class FileRenamer
         _ioServices = ioServices;
         _renameQueue = renameQueue;
 
-        _nfoCreator = new EpisodeInfoCreator(ioServices);
+        _nfoCreator = new(ioServices);
     }
 
     public void AddRename(EpisodeModel model)

@@ -5,6 +5,8 @@
 		<OutputType>Exe</OutputType>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<Platforms>x64</Platforms>
+		<LangVersion>10.0</LangVersion>
+		<ImplicitUsings>true</ImplicitUsings>
 		<RootNamespace>DoenaSoft.MassDownloadFileRenamer</RootNamespace>
 		<AssemblyName>MassDownloadFileRenamer</AssemblyName>
 		<Version>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</Version>

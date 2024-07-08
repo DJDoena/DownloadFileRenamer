@@ -1,26 +1,23 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
 
-namespace DoenaSoft.DownloadRenamer
+namespace DoenaSoft.DownloadRenamer;
+
+public static class Program
 {
-    public static class Program
+    [STAThread]
+    public static void Main()
     {
-        [STAThread]
-        public static void Main()
+        var processes = Process.GetProcessesByName("DownloadRenamer");
+
+        if (processes.Length > 1)
         {
-            var processes = Process.GetProcessesByName("DownloadRenamer");
+            MessageBox.Show("Already running!", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            if (processes.Length > 1)
-            {
-                MessageBox.Show("Already running!", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            return;
         }
+
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.Run(new MainForm());
     }
 }

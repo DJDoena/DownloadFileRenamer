@@ -1,11 +1,8 @@
-﻿using System;
+﻿namespace DoenaSoft.DownloadRenamer;
 
-namespace DoenaSoft.DownloadRenamer
+public sealed class BuilderException : Exception
 {
-    public sealed class BuilderException : Exception
+    public BuilderException(string message) : base(message)
     {
-        public BuilderException(string message) : base(message)
-        {
-        }
     }
 }
