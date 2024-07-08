@@ -51,16 +51,14 @@ internal static class Program
             return;
         }
 
-        var ioServices = new IOServices();
+        var renameQueue = new RenameQueue();
 
-        var renameQueue = new RenameQueue(ioServices);
-
-        var actualRenamer = new DownloadRenamer.FileRenamer(ioServices, renameQueue);
+        var actualRenamer = new DownloadRenamer.FileRenamer(renameQueue);
 
         var renamer = new FileRenamer(actualRenamer, _fileNameRegex, episodeTitles, ShortName, Resolution, GermanAudio);
         //var renamer = new SequentialFileRenamer(actualRenamer, episodeTitles, ShortName, Resolution, GermanAudio);
 
-        var files = ioServices.Folder.GetFiles(SourceFolder, $"*{Extension}", SIO.SearchOption.TopDirectoryOnly)
+        var files = renameQueue.IOServices.Folder.GetFiles(SourceFolder, $"*{Extension}", SIO.SearchOption.TopDirectoryOnly)
             .ToList();
 
         try

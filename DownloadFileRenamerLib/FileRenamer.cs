@@ -4,26 +4,25 @@ namespace DoenaSoft.DownloadRenamer;
 
 public sealed class FileRenamer
 {
-    private readonly IIOServices _ioServices;
-
     private readonly IRenameQueue _renameQueue;
 
     private readonly EpisodeInfoCreator _nfoCreator;
 
-    public FileRenamer(IIOServices ioServices
-        , IRenameQueue renameQueue)
+    private IIOServices IOServices
+        => _renameQueue.IOServices;
+
+    public FileRenamer(IRenameQueue renameQueue)
     {
-        _ioServices = ioServices;
         _renameQueue = renameQueue;
 
-        _nfoCreator = new(ioServices);
+        _nfoCreator = new(renameQueue.IOServices);
     }
 
     public void AddRename(EpisodeModel model)
     {
-        var sourceFileInfo = _ioServices.GetFileInfo(model.SourceFileName);
+        var sourceFileInfo = this.IOServices.GetFileInfo(model.SourceFileName);
 
-        var targetFileName = _ioServices.Path.Combine(sourceFileInfo.FolderName, model.TargetFileName);
+        var targetFileName = this.IOServices.Path.Combine(sourceFileInfo.FolderName, model.TargetFileName);
 
         _renameQueue.Add(sourceFileInfo, targetFileName);
 
@@ -34,7 +33,7 @@ public sealed class FileRenamer
 
             var titleFileName = targetFileName + ".title";
 
-            using var sw = _ioServices.File.CreateText(titleFileName);
+            using var sw = this.IOServices.File.CreateText(titleFileName);
 
             if (!string.IsNullOrEmpty(model.AirDate))
             {
@@ -53,15 +52,15 @@ public sealed class FileRenamer
 
         _nfoCreator.Create(targetFileName, seriesName.ShortName, title, model.AirDate, model.EpisodeNumber, model.TvdbId);
 
-        var partnerFilesSourceName = _ioServices.Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
+        var partnerFilesSourceName = this.IOServices.Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
 
         var partnerSourceFiles = sourceFileInfo.Folder.GetFiles($"{partnerFilesSourceName}*.*", System.IO.SearchOption.TopDirectoryOnly);
 
-        var partnerTargetFileNamePrefix = _ioServices.Path.GetFileNameWithoutExtension(targetFileName);
+        var partnerTargetFileNamePrefix = this.IOServices.Path.GetFileNameWithoutExtension(targetFileName);
 
         foreach (var partnerSourceFile in partnerSourceFiles)
         {
-            if (_ioServices.Path.GetFullPath(partnerSourceFile.FullName) == _ioServices.Path.GetFullPath(sourceFileInfo.FullName))
+            if (this.IOServices.Path.GetFullPath(partnerSourceFile.FullName) == this.IOServices.Path.GetFullPath(sourceFileInfo.FullName))
             {
                 continue;
             }
@@ -74,9 +73,9 @@ public sealed class FileRenamer
 
     private string GetPartnerTargetFileName(IFileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
     {
-        var partnerTargetFileName = _ioServices.Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
+        var partnerTargetFileName = this.IOServices.Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
 
-        var partnerFileExtension = _ioServices.Path.GetExtension(partnerSourceFile.Name);
+        var partnerFileExtension = this.IOServices.Path.GetExtension(partnerSourceFile.Name);
 
         switch (partnerFileExtension)
         {
@@ -101,7 +100,7 @@ public sealed class FileRenamer
             partnerTargetFileName = partnerTargetFileName.Replace($"{partnerTargetFileNamePrefix}.-", $"{partnerTargetFileNamePrefix}.");
         }
 
-        partnerTargetFileName = _ioServices.Path.Combine(partnerSourceFile.FolderName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
+        partnerTargetFileName = this.IOServices.Path.Combine(partnerSourceFile.FolderName, $"{partnerTargetFileName}{partnerSourceFile.Extension}");
 
         return partnerTargetFileName;
     }

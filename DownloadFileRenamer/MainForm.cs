@@ -253,13 +253,11 @@ public partial class MainForm : Form
 
         try
         {
-            var ioServices = new IOServices();
-
-            var renameQueue = new RenameQueue(ioServices);
+            var renameQueue = new RenameQueue();
 
             renameQueue.StartRename();
 
-            (new FileRenamer(ioServices, renameQueue)).AddRename(_model);
+            (new FileRenamer(renameQueue)).AddRename(_model);
 
             renameQueue.FinishRename();
 
