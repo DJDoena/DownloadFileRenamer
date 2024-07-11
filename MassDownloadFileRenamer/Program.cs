@@ -23,10 +23,10 @@ internal static class Program
     private const bool GermanAudio = true;
 
     //S01E01
-    //private static readonly Regex _fileNameRegex = new("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])(E(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _fileNameRegex = new("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])(E(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     //1x01
-    private static readonly Regex _fileNameRegex = new("(?'Season'[0-1]?[0-9])x(?'Episode'[0-3][0-9])(x(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    //private static readonly Regex _fileNameRegex = new("(?'Season'[0-1]?[0-9])x(?'Episode'[0-3][0-9])(x(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     //-101
     //private static readonly Regex _fileNameRegex = new("-(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -34,8 +34,8 @@ internal static class Program
     //- 101 -
     //private static readonly Regex _fileNameRegex = new("- (?'Season'[1-9])(?'Episode'[0-5][0-9]) -", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    //
-    //private static readonly Regex _fileNameRegex = new("S(?'Season'[1-9])E(?'Episode'[0-3][0-9])(E(?'Episode2'[0-3][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    //101
+    //private static readonly Regex _fileNameRegex = new("(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     private static void Main()
     {
