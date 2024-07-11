@@ -18,7 +18,7 @@ internal static class Program
 
     private const string Extension = ".mkv";
 
-    private const string Resolution = "480";
+    private const string Resolution = "720";
 
     private const bool GermanAudio = true;
 
@@ -26,7 +26,7 @@ internal static class Program
     //private static readonly Regex _fileNameRegex = new("S(?'Season'[0-1][0-9])E(?'Episode'[0-9][0-9])(E(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     //1x01
-    private static readonly Regex _fileNameRegex = new("(?'Season'[0-9])x(?'Episode'[0-3][0-9])(x(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _fileNameRegex = new("(?'Season'[0-1]?[0-9])x(?'Episode'[0-3][0-9])(x(?'Episode2'[0-9][0-9]))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     //-101
     //private static readonly Regex _fileNameRegex = new("-(?'Season'[1-9])(?'Episode'[0-3][0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
