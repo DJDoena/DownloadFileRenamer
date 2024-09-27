@@ -8,7 +8,7 @@ namespace DoenaSoft.MassDownloadFileRenamer;
 
 internal static class Program
 {
-    private const string ShortName = "JAG";
+    private const string ShortName = "PeakyBlinders";
 
     private const string TitleFile = @"D:\" + ShortName + ".csv";
 

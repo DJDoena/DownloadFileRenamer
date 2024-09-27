@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net472</TargetFramework>
-		<OutputType>Library</OutputType>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<Platforms>x64</Platforms>
-		<LangVersion>10.0</LangVersion>
-		<ImplicitUsings>true</ImplicitUsings>
-		<RootNamespace>DoenaSoft.DownloadRenamer</RootNamespace>
 		<AssemblyName>DownloadFileRenamerLib</AssemblyName>
+		<RootNamespace>DoenaSoft.DownloadRenamer</RootNamespace>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net472</TargetFramework>
+		<Platforms>x64</Platforms>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<ImplicitUsings>true</ImplicitUsings>
+		<LangVersion>10.0</LangVersion>
 		<Version>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</Version>
 		<FileVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</FileVersion>
 	</PropertyGroup>
