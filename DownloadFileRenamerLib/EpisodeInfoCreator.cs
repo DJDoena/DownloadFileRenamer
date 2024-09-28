@@ -77,6 +77,6 @@ internal sealed class EpisodeInfoCreator
 
         using var sw = _ioServices.GetFileStream(targetFileName, SIO.FileMode.Create, SIO.FileAccess.Write, SIO.FileShare.ReadWrite);
 
-        Serializer<EpisodeDetails>.Serialize(sw, episodeDetails, new UTF8Encoding(false));
+        XmlSerializer<EpisodeDetails>.Serialize(sw, episodeDetails, new UTF8Encoding(false));
     }
 }

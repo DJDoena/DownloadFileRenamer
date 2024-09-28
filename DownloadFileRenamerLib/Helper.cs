@@ -25,7 +25,7 @@ public static class Helper
     {
         var fileName = Path.Combine(_root, "Names.xml");
 
-        var names = Serializer<Names>.Deserialize(fileName);
+        var names = XmlSerializer<Names>.Deserialize(fileName);
 
         var nameList = (names.NameList ?? Enumerable.Empty<Name>()).ToList();
 
@@ -80,7 +80,7 @@ public static class Helper
     {
         var fileName = Path.Combine(_root, "DateShows.xml");
 
-        var names = Serializer<DateShows>.Deserialize(fileName);
+        var names = XmlSerializer<DateShows>.Deserialize(fileName);
 
         var nameList = (names.ShortNameList ?? Enumerable.Empty<string>()).ToList();
 
@@ -108,14 +108,14 @@ public static class Helper
             File.Move(fileName, backupFileName);
         }
 
-        Serializer<Names>.Serialize(fileName, nameList);
+        XmlSerializer<Names>.Serialize(fileName, nameList);
     }
 
     public static List<CrypticName> ReadCrypticNames()
     {
         if (File.Exists(_crypticNameFile))
         {
-            var names = Serializer<CrypticNames>.Deserialize(_crypticNameFile);
+            var names = XmlSerializer<CrypticNames>.Deserialize(_crypticNameFile);
 
             var nameList = (names.CrypticNameList ?? Enumerable.Empty<CrypticName>()).ToList();
 
@@ -137,6 +137,6 @@ public static class Helper
                 .ToArray(),
         };
 
-        Serializer<CrypticNames>.Serialize(_crypticNameFile, nameList);
+        XmlSerializer<CrypticNames>.Serialize(_crypticNameFile, nameList);
     }
 }
