@@ -389,6 +389,11 @@ public partial class MainForm : Form
     private void OnEpisodeNameTextBoxTextChanged(object sender, EventArgs e)
     {
         _model.EpisodeName = EpisodeNameTextBox.Text;
+
+        if (!EpisodeNameTextBox.Text.EndsWith(" "))
+        {
+            this.TryBuildFileName();
+        }
     }
 
     private void OnModelShowNameChanged(object sender, EventArgs e)
@@ -410,6 +415,8 @@ public partial class MainForm : Form
     private void OnEpisodeNumberTextBoxTextChanged(object sender, EventArgs e)
     {
         _model.EpisodeNumber = EpisodeNumberTextBox.Text;
+
+        this.TryBuildFileName();
     }
 
     private void OnModelEpisodeNumberChanged(object sender, EventArgs e)
@@ -436,6 +443,8 @@ public partial class MainForm : Form
     private void OnAirDateTextBoxTextChanged(object sender, EventArgs e)
     {
         _model.AirDate = AirDateTextBox.Text;
+
+        this.TryBuildFileName();
     }
 
     private void OnModelAirDateChanged(object sender, EventArgs e)
@@ -449,6 +458,8 @@ public partial class MainForm : Form
     private void OnResolutionTextBoxTextChanged(object sender, EventArgs e)
     {
         _model.Resolution = ResolutionTextBox.Text;
+
+        this.TryBuildFileName();
     }
 
     private void OnModelResolutionChanged(object sender, EventArgs e)
@@ -489,6 +500,11 @@ public partial class MainForm : Form
     {
         _model.GermanAudio = DeCheckbox.Checked;
 
+        this.TryBuildFileName();
+    }
+
+    private void TryBuildFileName()
+    {
         try
         {
             FileNameBuilder.Build(_model, true);

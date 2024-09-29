@@ -8,7 +8,7 @@ namespace DoenaSoft.MassDownloadFileRenamer;
 
 internal static class Program
 {
-    private const string ShortName = "PeakyBlinders";
+    private const string ShortName = "Loudermilk";
 
     private const string TitleFile = @"D:\" + ShortName + ".csv";
 
@@ -18,7 +18,7 @@ internal static class Program
 
     private const string Extension = ".mkv";
 
-    private const string Resolution = "720";
+    private const string Resolution = "1080";
 
     private const bool GermanAudio = true;
 
