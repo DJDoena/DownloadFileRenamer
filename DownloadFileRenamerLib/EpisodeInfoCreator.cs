@@ -17,7 +17,7 @@ internal sealed class EpisodeInfoCreator
 
     public void Create(string videoFileName, string seriesShortName, string title, string airdate, string seasonAndEpisode, string tvdbId)
     {
-        var videoFI = _ioServices.GetFileInfo(videoFileName);
+        var videoFI = _ioServices.GetFile(videoFileName);
 
         var nfoFileName = _ioServices.Path.GetFileNameWithoutExtension(videoFI.Name) + ".nfo";
 

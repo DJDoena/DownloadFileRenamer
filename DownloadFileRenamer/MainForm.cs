@@ -255,11 +255,11 @@ public partial class MainForm : Form
         {
             var renameQueue = new RenameQueue();
 
-            renameQueue.StartRename();
+            renameQueue.Initialize();
 
             (new FileRenamer(renameQueue)).AddRename(_model);
 
-            renameQueue.FinishRename();
+            renameQueue.Commit();
 
             this.Clean();
         }

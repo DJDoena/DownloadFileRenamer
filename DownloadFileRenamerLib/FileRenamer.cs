@@ -20,7 +20,7 @@ public sealed class FileRenamer
 
     public void AddRename(EpisodeModel model)
     {
-        var sourceFileInfo = this.IOServices.GetFileInfo(model.SourceFileName);
+        var sourceFileInfo = this.IOServices.GetFile(model.SourceFileName);
 
         var targetFileName = this.IOServices.Path.Combine(sourceFileInfo.FolderName, model.TargetFileName);
 

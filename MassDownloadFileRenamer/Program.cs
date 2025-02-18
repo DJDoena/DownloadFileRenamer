@@ -63,11 +63,11 @@ internal static class Program
 
         try
         {
-            renameQueue.StartRename();
+            renameQueue.Initialize();
 
             renamer.Rename(files);
 
-            var count = renameQueue.FinishRename();
+            var count = renameQueue.Commit();
 
             Console.WriteLine($"{count} renamed.");
         }
