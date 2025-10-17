@@ -39,7 +39,7 @@ public static class Helper
         {
             return "1080";
         }
-        else if (fileName.Contains("720") || fileName.Contains("-7p-"))
+        else if (fileName.Contains("720") || fileName.Contains("-7p-") || fileName.Contains(".7p-"))
         {
             return "720";
         }

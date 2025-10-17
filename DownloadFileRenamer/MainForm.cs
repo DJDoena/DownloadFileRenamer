@@ -90,7 +90,7 @@ public partial class MainForm : Form
         using var ofd = new OpenFileDialog()
         {
             CheckFileExists = true,
-            Filter = "Video files|*.mkv;*.mp4|All files|*.*",
+            Filter = "Video files|*.mkv;*.mp4;*.avi|All files|*.*",
             InitialDirectory = Path.Combine("N:", "Fresh Downloads", "Finished"),
             Multiselect = false,
             RestoreDirectory = true,
