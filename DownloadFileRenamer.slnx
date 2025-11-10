@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="DownloadFileRenamer/DownloadFileRenamer.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="DownloadFileRenamerLib/DownloadFileRenamerLib.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="MassDownloadFileRenamer/MassDownloadFileRenamer.csproj">
+    <Platform Project="x64" />
+  </Project>
+</Solution>
