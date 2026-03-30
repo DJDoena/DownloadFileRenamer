@@ -14,8 +14,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DoenaSoft.AbstractionLayer.IO" Version="3.0.1" />
-		<PackageReference Include="DoenaSoft.CopySeries.Xml" Version="1.0.12" />
+		<PackageReference Include="DoenaSoft.AbstractionLayer.IO.Default" Version="1.0.2" />
+		<PackageReference Include="DoenaSoft.CopySeries.Xml" Version="1.0.19" />
 	</ItemGroup>
 
 	<ItemGroup>
