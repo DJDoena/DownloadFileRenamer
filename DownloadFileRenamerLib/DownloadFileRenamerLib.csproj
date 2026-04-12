@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\..\djdsoft.png" Pack="true" PackagePath="\" />
+		<None Include="djdsoft.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
