@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AssemblyName>DoenaSoft.DownloadFileRenamer.Lib</AssemblyName>
+		<AssemblyName>DoenaSoft.DownloadFileRenamer</AssemblyName>
 		<RootNamespace>DoenaSoft.DownloadRenamer</RootNamespace>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net472</TargetFramework>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ImplicitUsings>true</ImplicitUsings>
 		<LangVersion>latest</LangVersion>
-		<Title>DoenaSoft.DownloadFileRenamer.Lib</Title>
+		<Title>DoenaSoft.DownloadFileRenamer</Title>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/DJDoena/DownloadFileRenamer</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/DJDoena/DownloadFileRenamer</RepositoryUrl>
@@ -18,6 +18,8 @@
 		<Company>Doena Soft.</Company>
 		<Authors>DJ Doena</Authors>
 		<Copyright>Copyright © Doena Soft. 2022 - 2026</Copyright>
+		<Version>1.0.1</Version>
+		<FileVersion>1.0.1</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
