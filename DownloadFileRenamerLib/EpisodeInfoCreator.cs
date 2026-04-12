@@ -5,7 +5,7 @@ using DoenaSoft.ToolBox.Generics;
 
 namespace DoenaSoft.DownloadRenamer;
 
-internal sealed class EpisodeInfoCreator
+public sealed class EpisodeInfoCreator
 {
     private readonly IIOServices _ioServices;
 
