@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DownloadFileRenamerLib\DownloadFileRenamerLib.csproj" />
+	  <ProjectReference Include="..\DownloadFileRenamerLib\DownloadFileRenamerLib.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

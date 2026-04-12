@@ -8,6 +8,8 @@ public partial class MainForm : Form
 {
     private readonly EpisodeModel _model;
 
+    private readonly Helper _helper;
+
     private readonly List<string> _dateShows;
 
     private readonly List<CrypticName> _crypticNames;
@@ -36,9 +38,11 @@ public partial class MainForm : Form
         _model.TargetFileNameChanged += this.OnModelTargetFileNameChanged;
         _model.TvdbIdChanged += this.OnModelTvdbIdChanged;
 
-        _dateShows = Helper.ReadDateShows();
+        _helper = new Helper(Path.Combine(@"N:\", "Fresh Downloads", "!Tools"));
 
-        _crypticNames = Helper.ReadCrypticNames();
+        _dateShows = _helper.ReadDateShows();
+
+        _crypticNames = _helper.ReadCrypticNames();
 
         this.InitializeComponent();
 
@@ -47,7 +51,7 @@ public partial class MainForm : Form
         SeriesNameComboBox.DisplayMember = nameof(CopySeries.Name.LongName);
         SeriesNameComboBox.ValueMember = nameof(CopySeries.Name.ShortName);
 
-        _names = Helper.ReadNames();
+        _names = _helper.ReadNames();
 
         SeriesNameComboBox.DataSource = _names;
 
@@ -192,9 +196,9 @@ public partial class MainForm : Form
 
     private void OnFormClosing(object sender, FormClosingEventArgs e)
     {
-        Helper.WriteCrypticNames(_crypticNames);
+        _helper.WriteCrypticNames(_crypticNames);
 
-        Helper.WriteNames(_names);
+        _helper.WriteNames(_names);
     }
 
     private void OnProcessButtonClicked(object sender, EventArgs e)
@@ -291,13 +295,13 @@ public partial class MainForm : Form
 
     private void OnNewSeriesButtonClick(object sender, EventArgs e)
     {
-        Helper.WriteNames(_names);
+        _helper.WriteNames(_names);
 
-        using (var form = new NewSeriesForm())
+        using (var form = new NewSeriesForm(_helper))
         {
             if (form.ShowDialog() == DialogResult.OK)
             {
-                _names = Helper.ReadNames();
+                _names = _helper.ReadNames();
 
                 SeriesNameComboBox.DataSource = _names;
 

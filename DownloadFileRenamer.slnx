@@ -6,9 +6,7 @@
   <Project Path="DownloadFileRenamer/DownloadFileRenamer.csproj">
     <Platform Project="x64" />
   </Project>
-  <Project Path="DownloadFileRenamerLib/DownloadFileRenamerLib.csproj">
-    <Platform Project="x64" />
-  </Project>
+  <Project Path="DownloadFileRenamerLib/DownloadFileRenamerLib.csproj" />
   <Project Path="MassDownloadFileRenamer/MassDownloadFileRenamer.csproj">
     <Platform Project="x64" />
   </Project>

@@ -6,13 +6,16 @@ namespace DoenaSoft.DownloadRenamer;
 
 public partial class NewSeriesForm : Form
 {
+    private readonly Helper _helper;
+
     internal string NewShortName { get; private set; }
 
-    public NewSeriesForm()
+    public NewSeriesForm(Helper helper)
     {
         this.InitializeComponent();
 
         this.Icon = Resource.djdsoft;
+        _helper = helper;
     }
 
     private void OnCloseButtonClick(object sender, EventArgs e)
@@ -49,7 +52,7 @@ public partial class NewSeriesForm : Form
             return;
         }
 
-        var names = Helper.ReadNames();
+        var names = _helper.ReadNames();
 
         if (AlreadyExists(names, n => n.ShortName.ToLower() == newShortName.ToLower())
             || AlreadyExists(names, n => n.LongName.ToLower() == newLongName.ToLower()))
@@ -70,7 +73,7 @@ public partial class NewSeriesForm : Form
 
         names.Insert(0, newName);
 
-        Helper.WriteNames(names);
+        _helper.WriteNames(names);
 
         this.NewShortName = newName.ShortName;
 

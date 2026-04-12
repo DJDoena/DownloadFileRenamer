@@ -30,7 +30,9 @@ internal sealed class SequentialFileRenamer
 
         _germanAudio = germanAudio;
 
-        _showName = Helper.ReadNames().First(n => n.ShortName == shortName);
+        var helper = new Helper(Path.Combine(@"N:\", "Fresh Downloads", "!Tools"));
+
+        _showName = helper.ReadNames().First(n => n.ShortName == shortName);
     }
 
     public void Rename(IEnumerable<IFileInfo> files)

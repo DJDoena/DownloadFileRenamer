@@ -4,24 +4,28 @@ using DoenaSoft.ToolBox.Generics;
 
 namespace DoenaSoft.DownloadRenamer;
 
-public static class Helper
+public sealed class Helper
 {
-    private static readonly string _root;
-
-    private static readonly string _crypticNameFile;
-
     private static readonly Regex _episodeNumberRegex;
+
+    private readonly string _root;
+
+    private readonly string _crypticNameFile;
 
     static Helper()
     {
-        _root = Path.Combine(@"N:\", "Fresh Downloads", "!Tools");
-
-        _crypticNameFile = Path.Combine(_root, "CrypticNames.xml");
-
         _episodeNumberRegex = new("(S(?'Season'[0-9]+)E(?'Episode'[0-9]+)(E(?'Episode2'[0-2][0-9]))?)|((?'Season'[0-9]+)x(?'Episode'[0-9]+)(x(?'Episode2'[0-2][0-9]))?)|(\\-(?'Season'[1-9])(?'Episode'[0-9]{2})$)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
     }
 
-    public static List<Name> ReadNames()
+    public Helper(string root)
+    {
+        _root = root; ;
+
+        _crypticNameFile = Path.Combine(_root, "CrypticNames.xml");
+
+    }
+
+    public List<Name> ReadNames()
     {
         var fileName = Path.Combine(_root, "Names.xml");
 
@@ -76,7 +80,7 @@ public static class Helper
         }
     }
 
-    public static List<string> ReadDateShows()
+    public List<string> ReadDateShows()
     {
         var fileName = Path.Combine(_root, "DateShows.xml");
 
@@ -87,7 +91,7 @@ public static class Helper
         return nameList;
     }
 
-    public static void WriteNames(List<Name> names)
+    public void WriteNames(List<Name> names)
     {
         var nameList = new Names()
         {
@@ -111,7 +115,7 @@ public static class Helper
         XmlSerializer<Names>.Serialize(fileName, nameList);
     }
 
-    public static List<CrypticName> ReadCrypticNames()
+    public List<CrypticName> ReadCrypticNames()
     {
         if (File.Exists(_crypticNameFile))
         {
@@ -127,7 +131,7 @@ public static class Helper
         }
     }
 
-    public static void WriteCrypticNames(List<CrypticName> crypticNames)
+    public void WriteCrypticNames(List<CrypticName> crypticNames)
     {
         var nameList = new CrypticNames()
         {
