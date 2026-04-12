@@ -253,7 +253,7 @@ public partial class MainForm : Form
 
         try
         {
-            var renameQueue = new RenameQueue();
+            var renameQueue = new RenameQueue(logger: new ConsoleLogger());
 
             renameQueue.Initialize();
 

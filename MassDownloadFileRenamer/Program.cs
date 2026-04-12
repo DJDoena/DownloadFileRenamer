@@ -51,7 +51,7 @@ internal static class Program
             return;
         }
 
-        var renameQueue = new RenameQueue();
+        var renameQueue = new RenameQueue(logger: new ConsoleLogger());
 
         var actualRenamer = new DownloadRenamer.FileRenamer(renameQueue);
 
