@@ -18,8 +18,8 @@
 		<Company>Doena Soft.</Company>
 		<Authors>DJ Doena</Authors>
 		<Copyright>Copyright © Doena Soft. 2022 - 2026</Copyright>
-		<Version>1.0.1</Version>
-		<FileVersion>1.0.1</FileVersion>
+		<Version>1.0.2</Version>
+		<FileVersion>1.0.2</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DoenaSoft.AbstractionLayer.IO.Default" Version="2.0.1" />
+		<PackageReference Include="DoenaSoft.AbstractionLayer.IO" Version="6.0.4" />
 		<PackageReference Include="DoenaSoft.CopySeries.Xml" Version="1.0.19" />
 	</ItemGroup>
 
