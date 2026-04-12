@@ -11,7 +11,7 @@ on:
 env:
   SOURCE_URL: https://api.nuget.org/v3/index.json
   PROJECT_FILE: DownloadFileRenamerLib.csproj
-  PROJECT_FOLDER: CDownloadFileRenamer\DownloadFileRenamerLib
+  PROJECT_FOLDER: DownloadFileRenamer\DownloadFileRenamerLib
   BUILD_CONFIGURATION: Release
   
 jobs:
