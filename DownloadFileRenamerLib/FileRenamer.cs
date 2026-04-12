@@ -54,7 +54,7 @@ public sealed class FileRenamer
 
         var partnerFilesSourceName = this.IOServices.Path.GetFileNameWithoutExtension(sourceFileInfo.Name);
 
-        var partnerSourceFiles = sourceFileInfo.Folder.GetFiles($"{partnerFilesSourceName}*.*", System.IO.SearchOption.TopDirectoryOnly);
+        var partnerSourceFiles = sourceFileInfo.Folder.GetFiles($"{partnerFilesSourceName}*.*", SearchOption.TopDirectoryOnly);
 
         var partnerTargetFileNamePrefix = this.IOServices.Path.GetFileNameWithoutExtension(targetFileName);
 
@@ -71,7 +71,9 @@ public sealed class FileRenamer
         }
     }
 
-    private string GetPartnerTargetFileName(IFileInfo partnerSourceFile, string partnerFilesSourceName, string partnerTargetFileNamePrefix)
+    private string GetPartnerTargetFileName(IFileInfo partnerSourceFile
+        , string partnerFilesSourceName
+        , string partnerTargetFileNamePrefix)
     {
         var partnerTargetFileName = this.IOServices.Path.GetFileNameWithoutExtension(partnerSourceFile.Name);
 

@@ -4,7 +4,8 @@ namespace DoenaSoft.DownloadRenamer;
 
 public static class FileNameBuilder
 {
-    public static void Build(EpisodeModel model, bool silent)
+    public static void Build(EpisodeModel model
+        , bool silent)
     {
         model.TargetFileName = string.Empty;
 
@@ -109,9 +110,11 @@ public static class FileNameBuilder
         model.TargetFileName = fileNameBuilder.ToString();
     }
 
-    private static string GetSelectedShortName(EpisodeModel model) => model.ShowName.ShortName;
+    private static string GetSelectedShortName(EpisodeModel model) 
+        => model.ShowName.ShortName;
 
-    private static bool EpisodeNameIsClean(EpisodeModel model) => !model.EpisodeName.Any(c => Path.GetInvalidFileNameChars().Contains(c));
+    private static bool EpisodeNameIsClean(EpisodeModel model) 
+        => !model.EpisodeName.Any(c => Path.GetInvalidFileNameChars().Contains(c));
 
     private static string GetCleanEpisodeName(EpisodeModel model)
     {

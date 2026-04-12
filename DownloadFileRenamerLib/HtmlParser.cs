@@ -15,7 +15,8 @@ public static class HtmlParser
         _nameRegex = new("(<.+?>)?(?'Name'.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
     }
 
-    public static void Parse(EpisodeModel model, string html)
+    public static void Parse(EpisodeModel model
+        , string html)
     {
         var match = _urlRegex.Match(html);
 

@@ -2,7 +2,6 @@
 using System.Xml;
 using DoenaSoft.AbstractionLayer.IOServices;
 using DoenaSoft.ToolBox.Generics;
-using SIO = System.IO;
 
 namespace DoenaSoft.DownloadRenamer;
 
@@ -15,7 +14,12 @@ internal sealed class EpisodeInfoCreator
         _ioServices = ioServices;
     }
 
-    public void Create(string videoFileName, string seriesShortName, string title, string airdate, string seasonAndEpisode, string tvdbId)
+    public void Create(string videoFileName
+        , string seriesShortName
+        , string title
+        , string airdate
+        , string seasonAndEpisode
+        , string tvdbId)
     {
         var videoFI = _ioServices.GetFile(videoFileName);
 
@@ -28,20 +32,20 @@ internal sealed class EpisodeInfoCreator
         UniqueId[] uniqueIds;
         if (string.IsNullOrEmpty(tvdbId))
         {
-            uniqueIds = new[]
-            {
+            uniqueIds =
+            [
                 new UniqueId()
                 {
                     type = "home",
                     @default = true,
                     Value = homeId,
                 },
-            };
+            ];
         }
         else
         {
-            uniqueIds = new[]
-            {
+            uniqueIds =
+            [
                 new UniqueId()
                 {
                     type = "tvdb",
@@ -54,7 +58,7 @@ internal sealed class EpisodeInfoCreator
                     @default = false,
                     Value = homeId,
                 },
-            };
+            ];
         }
 
         var episodeDetails = new EpisodeDetails()
@@ -75,7 +79,7 @@ internal sealed class EpisodeInfoCreator
 
         episodeDetails.episode = string.Join(" & ", split, 1, split.Length - 1);
 
-        using var sw = _ioServices.GetFileStream(targetFileName, SIO.FileMode.Create, SIO.FileAccess.Write, SIO.FileShare.ReadWrite);
+        using var sw = _ioServices.GetFileStream(targetFileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
 
         XmlSerializer<EpisodeDetails>.Serialize(sw, episodeDetails, new UTF8Encoding(false));
     }

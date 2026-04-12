@@ -22,7 +22,6 @@ public sealed class Helper
         _root = root; ;
 
         _crypticNameFile = Path.Combine(_root, "CrypticNames.xml");
-
     }
 
     public List<Name> ReadNames()
@@ -31,7 +30,7 @@ public sealed class Helper
 
         var names = XmlSerializer<Names>.Deserialize(fileName);
 
-        var nameList = (names.NameList ?? Enumerable.Empty<Name>()).ToList();
+        var nameList = (names.NameList ?? []).ToList();
 
         return nameList;
     }
@@ -86,7 +85,7 @@ public sealed class Helper
 
         var names = XmlSerializer<DateShows>.Deserialize(fileName);
 
-        var nameList = (names.ShortNameList ?? Enumerable.Empty<string>()).ToList();
+        var nameList = (names.ShortNameList ?? []).ToList();
 
         return nameList;
     }
@@ -95,7 +94,7 @@ public sealed class Helper
     {
         var nameList = new Names()
         {
-            NameList = names.OrderBy(n => n, Comparer<Name>.Create((left, right) => left.SortName.CompareTo(right.SortName))).ToArray(),
+            NameList = [.. names.OrderBy(n => n, Comparer<Name>.Create((left, right) => left.SortName.CompareTo(right.SortName)))],
         };
 
         var fileName = Path.Combine(_root, "Names.xml");
@@ -127,7 +126,7 @@ public sealed class Helper
         }
         else
         {
-            return new List<CrypticName>();
+            return [];
         }
     }
 
@@ -135,10 +134,9 @@ public sealed class Helper
     {
         var nameList = new CrypticNames()
         {
-            CrypticNameList = crypticNames
+            CrypticNameList = [.. crypticNames
                 .OrderBy(cn => cn.ShortName)
-                .ThenBy(cn => cn.DownloadName)
-                .ToArray(),
+                .ThenBy(cn => cn.DownloadName)],
         };
 
         XmlSerializer<CrypticNames>.Serialize(_crypticNameFile, nameList);
