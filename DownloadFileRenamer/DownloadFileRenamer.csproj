@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="DoenaSoft.AbstractionLayer.IO.Default" Version="2.0.4" />
-	  <PackageReference Include="DoenaSoft.DownloadFileRenamer" Version="1.0.4" />
+	  <PackageReference Include="DoenaSoft.DownloadFileRenamer" Version="1.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>
