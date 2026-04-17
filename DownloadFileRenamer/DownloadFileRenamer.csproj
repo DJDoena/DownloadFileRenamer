@@ -5,7 +5,6 @@
 		<RootNamespace>DoenaSoft.DownloadRenamer</RootNamespace>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net472</TargetFramework>
-		<Platforms>x64</Platforms>
 		<ApplicationIcon>djdsoft.ico</ApplicationIcon>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
@@ -23,7 +22,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="DoenaSoft.AbstractionLayer.IO.Default" Version="2.0.4" />
-	  <PackageReference Include="DoenaSoft.DownloadFileRenamer" Version="1.0.5" />
+	  <PackageReference Include="DoenaSoft.DownloadFileRenamer" Version="1.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,5 +43,9 @@
 			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="set sourceDir=bin\$(Configuration)\$(TargetFramework)&#xD;&#xA;set targetDir=&quot;N:\Fresh Downloads\!Tools\DownloadFileRenamer&quot;&#xD;&#xA;&#xD;&#xA;md %25targetDir%25&#xD;&#xA;xcopy /y %25sourceDir%25\*.dll %25targetDir%25&#xD;&#xA;xcopy /y %25sourceDir%25\*.pdb %25targetDir%25&#xD;&#xA;xcopy /y %25sourceDir%25\*.exe %25targetDir%25" />
+	</Target>
 
 </Project>
