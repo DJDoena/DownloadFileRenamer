@@ -8,7 +8,7 @@ namespace DoenaSoft.MassDownloadFileRenamer;
 
 internal static class Program
 {
-    private const string ShortName = "DesignatedSurvivor";
+    private const string ShortName = "DiP";
 
     private const string TitleFile = @"D:\" + ShortName + ".csv";
 
@@ -67,9 +67,20 @@ internal static class Program
 
             renamer.Rename(files);
 
-            var count = renameQueue.Commit().SuccessCount;
+            Console.WriteLine("Confirm renames? (y/n)");
 
-            Console.WriteLine($"{count} renamed.");
+            var confirm = Console.ReadLine();
+
+            if (confirm?.ToLower() != "y")
+            {
+                Console.WriteLine("Operation cancelled.");
+            }
+            else
+            {
+                var count = renameQueue.Commit().SuccessCount;
+
+                Console.WriteLine($"{count} renamed.");
+            }
         }
         catch (Exception ex)
         {

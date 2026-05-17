@@ -21,8 +21,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="DoenaSoft.AbstractionLayer.IO.Default" Version="2.0.4" />
-	  <PackageReference Include="DoenaSoft.DownloadFileRenamer" Version="1.0.7" />
+		<PackageReference Include="DoenaSoft.AbstractionLayer.IO.Default" Version="2.0.6" />
+		<PackageReference Include="DoenaSoft.DownloadFileRenamer" Version="1.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -45,13 +45,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="copy.cmd">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Update="copy.cmd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="call copy.cmd bin\$(Configuration)\$(TargetFramework)&#xD;&#xA;" />
+		<Exec Command="call copy.cmd bin\$(Configuration)\$(TargetFramework)&#xD;&#xA;" />
 	</Target>
 
 </Project>
