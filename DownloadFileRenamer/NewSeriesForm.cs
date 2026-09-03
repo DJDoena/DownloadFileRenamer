@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
+﻿using DoenaSoft.CopySeries;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Web;
-using DoenaSoft.CopySeries;
 
 namespace DoenaSoft.DownloadRenamer;
 
@@ -39,10 +40,22 @@ public partial class NewSeriesForm : Form
 
             return;
         }
+        else if (!Regex.IsMatch(newShortName, @"^[a-zA-Z0-9]+$"))
+        {
+            MessageBox.Show("Short name must contain only letters and numbers.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return;
+        }
         else if (string.IsNullOrEmpty(newLongName))
         {
             MessageBox.Show("No long name!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
+            return;
+        }
+        else if(Path.GetInvalidFileNameChars().Any(c => newLongName.Contains(c)))
+        {
+            MessageBox.Show("Long name contains invalid characters!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+         
             return;
         }
         else if (string.IsNullOrEmpty(link))
